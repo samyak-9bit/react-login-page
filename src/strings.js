@@ -8,3 +8,5 @@ export const signInBtn="Sign in";
 export const signInWithGoogleBtn = "Sign in with Google";
 export const signUpText = "Don’t have an account?";
 export const signUpLink = "Sign up for free!";
+export const emailPlaceholder = "Enter your email";
+export const passwordPlaceholder ="**********";

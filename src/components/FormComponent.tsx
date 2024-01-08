@@ -8,8 +8,10 @@ import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
 import {
   email,
+  emailPlaceholder,
   forgotPasswordLink,
   password,
+  passwordPlaceholder,
   rememberMeCheck,
   signInBtn,
   signInWithGoogleBtn,
@@ -35,7 +37,7 @@ const FormComponent: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('', {
+      const response = await axios.post('http://restapi.adequateshop.com/api/authaccount/login', {
         email:fields.email,
         password:fields.password,
       });
@@ -64,6 +66,7 @@ const FormComponent: React.FC = () => {
           value={fields.email}
           required
           onChange={handleInputChange}
+          placeholder={emailPlaceholder}
         />
         <Form.Label htmlFor="inputPassword5">{password}</Form.Label>
         <Form.Control
@@ -74,6 +77,7 @@ const FormComponent: React.FC = () => {
           value={fields.password}
           required
           onChange={handleInputChange}
+          placeholder={passwordPlaceholder}
         />
         <div className="option-box">
           <div className="form-check">
