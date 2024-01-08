@@ -6,19 +6,21 @@ import FormComponent from './components/FormComponent';
 
 function App() {
   return (
-   <>
-   <div className='row'>
-      <div className='col-md-6 main-content'>  
-      <div className='box'>
-        <Heading/>
-        <FormComponent/>
-       </div>
+    <>
+      <div className='row'>
+         {/* Form Section */}
+        <div className='col-md-6 main-content'>
+          <div className='content-box'>
+            <Heading />
+            <FormComponent />
+          </div>
+        </div>
+        {/* Image Section */}
+        <div className='col-md-6'>
+          <img src="sideImg.png" alt="img" height="100%" width="100%" />
+        </div>
       </div>
-      <div className='col-md-6'>
-        <img src="sideImg.png" alt="img" height="100%" width="100%"/>
-      </div>
-   </div>
-   </>
+    </>
   );
 }
 
