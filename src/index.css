@@ -1,6 +1,6 @@
-.body {
-    height: 80vh;
+body {
     background-color: rgba(248, 248, 248, 1);
+    overflow-x: hidden;
 }
 
 .main-content {
