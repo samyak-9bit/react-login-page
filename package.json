@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.2.18",
     "axios": "^1.6.5",
     "bootstrap": "^4.6.0",
+    "fetch-mock-jest": "^1.5.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.2",
     "react-dom": "^18.2.0",
@@ -43,11 +44,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "transformIgnorePatterns": [
-      "node_modules/(?!axios)/"
     ]
   }
 }

@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Form from 'react-bootstrap/Form';
 import { FcGoogle } from 'react-icons/fc';
-import axios from 'axios';
 import {
   email,
   emailPlaceholder,
@@ -28,28 +27,37 @@ const FormComponent: React.FC = () => {
     setFields((prevFields) => ({ ...prevFields, [name]: value }));
   };
 
-  // Function for signing In Calling API
-  const handleSignIn = async (e: FormEvent) => {
-    e.preventDefault();
+ 
+// Function for signing In and calling API
+const handleSignIn = async (e: FormEvent) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post('http://restapi.adequateshop.com/api/authaccount/login', {
-        email:fields.email,
-        password:fields.password,
-      });
-      console.log(response.data.message);
-      console.log(response.data);
+  try {
+    const response = await fetch('http://192.168.1.5:9000/authenticate', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: fields.email,
+        password: fields.password,
+      }),
+    });
 
-    } catch (error: unknown) {
-      
-      if (axios.isAxiosError(error)) {
-        console.error('Sign-in failed:', error.message);
-      } else {
-        console.error('Unexpected error:', error);
-      }
+    if (response.status === 200) {
+      alert("Sign-in Successful!");
+    } else if (response.status === 401) {
+      alert("Invalid Credentials!");
+    } else {
+      const text = await response.text();
+      alert(`Unexpected response: ${response.status}\n${text}`);
     }
-  };
 
+  } catch (error) {
+    console.error('Sign-in failed:', error);
+  }
+};
+
+
+  
   return (
     <div className="content-box mt-2">
       <Form onSubmit={handleSignIn}>
@@ -59,8 +67,9 @@ const FormComponent: React.FC = () => {
           name="email"
           aria-describedby="emailHelpBlock"
           className="mb-3"
-          value={fields.email}
+          id="emailInput"
           required
+          value={fields.email}
           onChange={handleInputChange}
           placeholder={emailPlaceholder}
         />
@@ -68,10 +77,11 @@ const FormComponent: React.FC = () => {
         <Form.Control
           type="password"
           name="password"
+          required
           aria-describedby="passwordHelpBlock"
+          id="passwordInput"
           className="mb-3"
           value={fields.password}
-          required
           onChange={handleInputChange}
           placeholder={passwordPlaceholder}
         />
