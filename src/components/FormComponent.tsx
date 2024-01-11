@@ -12,16 +12,26 @@ import {
   signInWithGoogleBtn,
   signUpLink,
   signUpText
-} from '../strings';
+} from '../constants';
+import { Fields } from '../types';
+import styled from 'styled-components';
 
-interface Fields {
-  email: string;
-  password: string;
-}
+const Span = styled.span`
+color: #EA454C;
+text-align: center;
+font-family: "Poppins";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.42px;
+padding-left: 2px;
+`
 
 const FormComponent: React.FC = () => {
   const [fields, setFields] = useState<Fields>({ email: '', password: '' });
-
+  const [message, setMessage]=useState<string>("");
+ 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFields((prevFields) => ({ ...prevFields, [name]: value }));
@@ -33,7 +43,7 @@ const handleSignIn = async (e: FormEvent) => {
   e.preventDefault();
 
   try {
-    const response = await fetch('http://192.168.1.5:9000/authenticate', {
+    const response = await fetch('http://192.168.1.6:9000/authenticate', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -41,14 +51,12 @@ const handleSignIn = async (e: FormEvent) => {
         password: fields.password,
       }),
     });
-
+    
     if (response.status === 200) {
-      alert("Sign-in Successful!");
+     setMessage("SignIn Successful!");
     } else if (response.status === 401) {
-      alert("Invalid Credentials!");
-    } else {
-      const text = await response.text();
-      alert(`Unexpected response: ${response.status}\n${text}`);
+      const status = await response.json();
+      setMessage("Authentication Failed!");
     }
 
   } catch (error) {
@@ -60,7 +68,7 @@ const handleSignIn = async (e: FormEvent) => {
   
   return (
     <div className="content-box mt-2">
-      <Form onSubmit={handleSignIn}>
+      <Form onSubmit={handleSignIn} data-testid="form">
         <Form.Label htmlFor="inputEmail">{email}</Form.Label>
         <Form.Control
           type="email"
@@ -68,26 +76,29 @@ const handleSignIn = async (e: FormEvent) => {
           aria-describedby="emailHelpBlock"
           className="mb-3"
           id="emailInput"
-          required
+          data-testid="emailInput"
           value={fields.email}
+          required
           onChange={handleInputChange}
           placeholder={emailPlaceholder}
+          
         />
         <Form.Label htmlFor="inputPassword5">{password}</Form.Label>
         <Form.Control
           type="password"
           name="password"
-          required
           aria-describedby="passwordHelpBlock"
           id="passwordInput"
+          data-testid="passwordInput"
           className="mb-3"
           value={fields.password}
+          required
           onChange={handleInputChange}
           placeholder={passwordPlaceholder}
         />
         <div className="option-box">
           <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" data-testid="flexCheckDefault"/>
             <label className="form-check-label" htmlFor="flexCheckDefault">
               {rememberMeCheck}
             </label>
@@ -96,7 +107,7 @@ const handleSignIn = async (e: FormEvent) => {
             {forgotPasswordLink}
           </a>
         </div>
-        <button className="signin-button mb-2 mt-3" type="submit">
+        <button className="signin-button mb-2 mt-3" type="submit"  data-testid="signIn-btn">
           {signInBtn}
         </button>
         <button className="signingoogle-button">
@@ -104,11 +115,14 @@ const handleSignIn = async (e: FormEvent) => {
           {signInWithGoogleBtn}
         </button>
       </Form>
-      <span className="signup-text">
+      <span className="signup-text mb-3">
         {signUpText} <a href="" className="signup-link">
           {signUpLink}
         </a>
       </span>
+     <Span>
+            {message}
+     </Span>
     </div>
   );
 };

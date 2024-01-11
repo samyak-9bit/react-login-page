@@ -1,5 +1,5 @@
 import React from 'react'
-import { mainHeading, subHeading } from '../strings'
+import { mainHeading, subHeading } from '../constants'
 
 const Heading = () => {
   return (
