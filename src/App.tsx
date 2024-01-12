@@ -10,12 +10,10 @@ import DataTable from './pages/DataTable';
 function App() {
   return (
     <>
-     <Login/>
-      {/* <Routes>
-        <Route path="/" element={<Login />}>
+      <Routes>
+        <Route path="/" element={<Login />}/>
         <Route path="/table" element={<DataTable />} />
-        </Route>
-      </Routes> */}
+      </Routes>
    
     </>
   );

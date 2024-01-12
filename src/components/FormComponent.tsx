@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Form from 'react-bootstrap/Form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import {
   email,
@@ -14,7 +14,7 @@ import {
   signUpLink,
   signUpText
 } from '../constants';
-import { Fields } from '../types';
+import { Fields } from '../types/types';
 import styled from 'styled-components';
 
 const Span = styled.span`
@@ -32,7 +32,8 @@ padding-left: 2px;
 const FormComponent: React.FC = () => {
   const [fields, setFields] = useState<Fields>({ email: '', password: '' });
   const [message, setMessage]=useState<string>("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFields((prevFields) => ({ ...prevFields, [name]: value }));
@@ -42,7 +43,6 @@ const FormComponent: React.FC = () => {
 // Function for signing In and calling API
 const handleSignIn = async (e: FormEvent) => {
   e.preventDefault();
-  // navigate('/table');
   try {
     const response = await fetch('http://192.168.1.5:9000/authenticate', {
       method: 'post',
@@ -54,8 +54,9 @@ const handleSignIn = async (e: FormEvent) => {
     });
     
     if (response.status === 200) {
-      setMessage("SignIn Successful!");
-      // navigate('/table')
+      // setMessage("SignIn Successful!");
+      navigate('/table');
+      return;
     } else if (response.status === 401) {
       const status = await response.json();
       setMessage("Authentication Failed!");
