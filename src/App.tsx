@@ -3,23 +3,20 @@ import './App.css';
 import { Row } from 'react-bootstrap';
 import Heading from './components/Heading';
 import FormComponent from './components/FormComponent';
+import Login from './pages/Login';
+import { Route, Routes } from 'react-router-dom';
+import DataTable from './pages/DataTable';
 
 function App() {
   return (
     <>
-      <div className='row'>
-         {/* Form Section */}
-        <div className='col-md-6 main-content'>
-          <div className='content-box'>
-            <Heading />
-            <FormComponent />
-          </div>
-        </div>
-        {/* Image Section */}
-        <div className='col-md-6' style={{height:"100vh"}}>
-          <img src="sideImg.png" alt="img" height="100%" width="100%" />
-        </div>
-      </div>
+     <Login/>
+      {/* <Routes>
+        <Route path="/" element={<Login />}>
+        <Route path="/table" element={<DataTable />} />
+        </Route>
+      </Routes> */}
+   
     </>
   );
 }

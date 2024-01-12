@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Form from 'react-bootstrap/Form';
+// import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import {
   email,
@@ -31,7 +32,7 @@ padding-left: 2px;
 const FormComponent: React.FC = () => {
   const [fields, setFields] = useState<Fields>({ email: '', password: '' });
   const [message, setMessage]=useState<string>("");
- 
+  // const navigate = useNavigate();
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFields((prevFields) => ({ ...prevFields, [name]: value }));
@@ -41,9 +42,9 @@ const FormComponent: React.FC = () => {
 // Function for signing In and calling API
 const handleSignIn = async (e: FormEvent) => {
   e.preventDefault();
-
+  // navigate('/table');
   try {
-    const response = await fetch('http://192.168.1.6:9000/authenticate', {
+    const response = await fetch('http://192.168.1.5:9000/authenticate', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -53,7 +54,8 @@ const handleSignIn = async (e: FormEvent) => {
     });
     
     if (response.status === 200) {
-     setMessage("SignIn Successful!");
+      setMessage("SignIn Successful!");
+      // navigate('/table')
     } else if (response.status === 401) {
       const status = await response.json();
       setMessage("Authentication Failed!");
@@ -63,7 +65,6 @@ const handleSignIn = async (e: FormEvent) => {
     console.error('Sign-in failed:', error);
   }
 };
-
 
   
   return (
@@ -120,7 +121,7 @@ const handleSignIn = async (e: FormEvent) => {
           {signUpLink}
         </a>
       </span>
-     <Span>
+     <Span data-testid="feedback">
             {message}
      </Span>
     </div>
