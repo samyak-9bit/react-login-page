@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import {
   email,
@@ -32,7 +32,7 @@ padding-left: 2px;
 const FormComponent: React.FC = () => {
   const [fields, setFields] = useState<Fields>({ email: '', password: '' });
   const [message, setMessage]=useState<string>("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,7 +44,7 @@ const FormComponent: React.FC = () => {
 const handleSignIn = async (e: FormEvent) => {
   e.preventDefault();
   try {
-    const response = await fetch('http://192.168.1.5:9000/authenticate', {
+    const response = await fetch('http://192.168.1.9:9000/authenticate', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -52,19 +52,26 @@ const handleSignIn = async (e: FormEvent) => {
         password: fields.password,
       }),
     });
-    
-    if (response.status === 200) {
-      // setMessage("SignIn Successful!");
-      navigate('/table');
-      return;
-    } else if (response.status === 401) {
-      const status = await response.json();
-      setMessage("Authentication Failed!");
-    }
 
+    switch(response.status) {
+      case 200:
+        setMessage("SignIn Successful!");
+        // navigate('/table');
+        return;
+      case 401:
+        setMessage("Authentication Failed!");
+       return;
+      case 404:
+        setMessage("System Error!");
+       return;
+      default:
+        setMessage("Something went wrong!");
+    }
+    
   } catch (error) {
     console.error('Sign-in failed:', error);
   }
+  setMessage("Something went wrong!");
 };
 
   

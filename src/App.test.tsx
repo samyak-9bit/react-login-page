@@ -49,7 +49,7 @@ describe('Form Component', () => {
   });
 
   it('should handle successful submission on valid fields', async () => {
-    fetchMock.post('http://192.168.1.5:9000/authenticate', (url, options) => {
+    fetchMock.post('http://192.168.1.9:9000/authenticate', (url, options) => {
       const requestBody = JSON.parse(options.body as string);
       return {
         status: 200,
@@ -65,6 +65,28 @@ describe('Form Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText("SignIn Successful!")).toBeInTheDocument();
+    });
+  
+    fetchMock.restore();
+  });
+
+  it('should give error message when fields not match', async () => {
+    fetchMock.post('http://192.168.1.9:9000/authenticate', (url, options) => {
+      const requestBody = JSON.parse(options.body as string);
+      return {
+        status: 401,
+        body: { message: 'Login failed' },
+      };
+    });
+  
+    render(<FormComponent />);
+    
+    fireEvent.change(screen.getByTestId("emailInput"), { target: { value: "abc@gmail.com" } });
+    fireEvent.change(screen.getByTestId("passwordInput"), { target: { value: "sdskdmkcm" } });
+    fireEvent.click(screen.getByRole('button', { name: signInBtn }));
+    
+    await waitFor(() => {
+      expect(screen.getByText("Authentication Failed!")).toBeInTheDocument();
     });
   
     fetchMock.restore();

@@ -6,6 +6,7 @@ import FormComponent from './components/FormComponent';
 import Login from './pages/Login';
 import { Route, Routes } from 'react-router-dom';
 import DataTable from './pages/DataTable';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />}/>
         <Route path="/table" element={<DataTable />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
    
     </>
