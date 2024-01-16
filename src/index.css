@@ -103,14 +103,15 @@ body {
     height: 1.80738rem;
     flex-shrink: 0;
 }
+
 .form-control::placeholder {
-color: #636364;
-font-family: "Poppins";
-font-size: 0.875rem;
-font-style: normal;
-font-weight: 300;
-line-height: normal;
-letter-spacing: 0.02625rem;
+    color: #636364;
+    font-family: "Poppins";
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 0.02625rem;
 }
 
 .form-check-label {
@@ -166,15 +167,93 @@ letter-spacing: 0.02625rem;
 }
 
 /* Page not found styling */
-.page-not-found{
+.page-not-found {
     width: 100%;
     height: 100%;
-   font-family: "Poppins";
-   text-align: center;
+    font-family: "Poppins";
+    text-align: center;
 
 }
-@media screen and (max-width: 768px){
-    .col-md-6{
+
+/* Table Page */
+
+.table-heading {
+    background: rgba(244, 247, 252, 0.75);
+    backdrop-filter: blur(4px);
+    width: 100%;
+    height: 6.5rem;
+}
+
+.filter-btn {
+    display: inline-flex;
+    padding: 0.5rem 0.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.375rem;
+    background: var(--White, #FFF);
+    box-shadow: 0px 2px 5px 0px rgba(89, 96, 120, 0.10), 0px 0px 0px 1px rgba(70, 79, 96, 0.16), 0px 1px 1px 0px rgba(0, 0, 0, 0.10);
+    float: left;
+}
+
+.delete-btn {
+    display: inline-flex;
+    padding: 0.5rem 0.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.375rem;
+    background: var(--White, #FFF);
+    box-shadow: 0px 2px 5px 0px rgba(89, 96, 120, 0.10), 0px 0px 0px 1px rgba(70, 79, 96, 0.16), 0px 1px 1px 0px rgba(0, 0, 0, 0.10);
+    float: right;
+}
+
+.input-form {
+    display: flex;
+    width: 20rem;
+    padding: 0.375rem 0.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.375rem;
+    background: var(--White, #FFF);
+    box-shadow: 0px 0px 0px 1px rgba(104, 113, 130, 0.16), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+    float: left;
+}
+
+.search-input-field {
+    flex: 1 0 0;
+    color: var(--Gray-300, #A1A9B8);
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+    border: #000;
+}
+
+.search-input-field::placeholder {
+    font-family: "Inter";
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.25rem;
+    /* 142.857% */
+    letter-spacing: 0.0175rem;
+}
+
+.btn {
+    color: var(--White, #FFF);
+    font-family: Inter;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.25rem;
+    /* 142.857% */
+    letter-spacing: 0.0175rem;
+    float: right;
+
+}
+
+@media screen and (max-width: 768px) {
+    .col-md-6 {
         margin: 2px;
     }
 }

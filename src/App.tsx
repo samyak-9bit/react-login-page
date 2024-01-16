@@ -5,8 +5,8 @@ import Heading from './components/Heading';
 import FormComponent from './components/FormComponent';
 import Login from './pages/Login';
 import { Route, Routes } from 'react-router-dom';
-import DataTable from './pages/DataTable';
 import PageNotFound from './pages/PageNotFound';
+import DataTable from './pages/DataTable/DataTable';
 
 function App() {
   return (
