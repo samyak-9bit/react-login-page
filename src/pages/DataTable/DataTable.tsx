@@ -5,7 +5,7 @@ import TableComponent from './TableComponent'
 const DataTable = () => {
   return (
     <div>
-      <Header/>
+    
       <TableComponent/>
       
     </div>

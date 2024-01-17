@@ -181,7 +181,7 @@ body {
     background: rgba(244, 247, 252, 0.75);
     backdrop-filter: blur(4px);
     width: 100%;
-    height: 6.5rem;
+    height: 4.5rem;
 }
 
 .filter-btn {
@@ -250,6 +250,22 @@ body {
     letter-spacing: 0.0175rem;
     float: right;
 
+}
+
+.selected-checks {
+    color: var(--Gray-700, #464F60);
+    font-family: "Inter";
+    font-size: 0.85rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.125rem;
+    /* 150% */
+    letter-spacing: 0.0225rem;
+    float: right;
+}
+
+.table-header {
+    background: rgba(244, 247, 252, 0.75);
 }
 
 @media screen and (max-width: 768px) {
