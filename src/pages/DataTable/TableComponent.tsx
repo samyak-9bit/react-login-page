@@ -20,9 +20,21 @@ import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import { TableData } from '../../types/types';
 import { dummyData } from './testData';
-import { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
+import { styled } from '@mui/material/styles';
+import AddItem from './AddItem';
+import EditIcon from '@mui/icons-material/Edit';
 
-const rows = dummyData;
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(even)': {
+    backgroundColor: " rgba(244, 247, 252, 0.75);",
+  },
+ 
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -141,7 +153,22 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               ) : null}
             </TableSortLabel>
           </TableCell>
+          
+
         ))}
+
+      <TableCell sx={{
+              color: "var(--Gray-700, #464F60)",
+              fontFamily: "Inter",
+              fontSize: "0.6875rem",
+              fontStyle: "normal",
+              fontWeight: "700",
+              lineHeight: "1rem",
+              letterSpacing: "0.0275rem",
+              textTransform: "uppercase",
+            }} align='center'>
+        Edit
+      </TableCell>
       </TableRow>
     </TableHead >
   );
@@ -149,10 +176,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  searchInput:string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
+  const [showModal, setShowModal] = React.useState<boolean>(false);
+
+  const addCustomer =()=>{
+    setShowModal(true)
+  }
+ 
 
   return (
     <Toolbar
@@ -172,7 +208,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         {/* Input Field */}
         <form className='input-form mt-3 ml-3'>
           <img src="Search.png" alt="search" />
-          <input type='text' placeholder='Search...' className='search-input-field' />
+          <input type='text' placeholder='Search...' className='search-input-field' value={props.searchInput} onChange={props.handleInputChange}/>
         </form>
 
         {/* Add/Delete button */}
@@ -185,7 +221,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
         ) : (
 
-          <Button variant="primary mt-3 mr-3"><span>+</span> Add Customer</Button>
+          <Button variant="primary mt-3 mr-3" onClick={addCustomer}><span>+</span> Add Customer</Button>
 
         )}
 
@@ -195,7 +231,10 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             {numSelected} selected
           </span>
         )}
+
+      <AddItem  showModal={showModal}  setModal={setShowModal} /> 
       </div>
+     
     </Toolbar>
   );
 }
@@ -207,6 +246,8 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows,setRows]=React.useState<TableData[]>(dummyData);
+  const [searchInput, setSearchInput] = React.useState<string>("");
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -215,6 +256,10 @@ export default function EnhancedTable() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -276,7 +321,7 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} handleInputChange={handleInputChange} searchInput={searchInput}/>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -297,7 +342,7 @@ export default function EnhancedTable() {
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
+                  <StyledTableRow
                     hover
                     onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
@@ -327,40 +372,80 @@ export default function EnhancedTable() {
                     }}
                     >{row.id}</TableCell>
                     <TableCell align="left" className='p-0' sx={{
-  color: "var(--Gray-900, #171C26)",
-  fontFamily: "Inter",
-  fontSize: "0.875rem",
-  fontStyle: "normal",
-  fontWeight: 600,
-  lineHeight: "1.25rem",
-  letterSpacing: "0.0175rem",
-}}
->{row.name}<div style={{
-  color: "var(--Gray-500, #687182)",
-  fontFamily: "Inter",
-  fontSize: "0.75rem",
-  fontStyle: "normal",
-  fontWeight: 400,
-  lineHeight: "1.125rem",
-  letterSpacing: "0.0225rem",
-}}>{row.phone}</div></TableCell>
-                   <TableCell align="left" sx={{
-  color: "var(--Gray-700, #464F60)",
-  fontFamily: "Inter",
-  fontSize: "0.875rem",
-  fontStyle: "normal",
-  fontWeight: 400,
-  lineHeight: "1.25rem",
-}}
->
-  {row.description.length > 20 ? `${row.description.substring(0, 25)}...` : row.description}
-</TableCell>
+                      color: "var(--Gray-900, #171C26)",
+                      fontFamily: "Inter",
+                      fontSize: "0.875rem",
+                      fontStyle: "normal",
+                      fontWeight: 600,
+                      lineHeight: "1.25rem",
+                      letterSpacing: "0.0175rem",
+                    }}
+                    >{row.name}<div style={{
+                      color: "var(--Gray-500, #687182)",
+                      fontFamily: "Inter",
+                      fontSize: "0.75rem",
+                      fontStyle: "normal",
+                      fontWeight: 400,
+                      lineHeight: "1.125rem",
+                      letterSpacing: "0.0225rem",
+                    }}>{row.phone}</div></TableCell>
+                    <Tooltip title={row.description}>
+                      <TableCell align="left" sx={{
+                        color: "var(--Gray-700, #464F60)",
+                        fontFamily: "Inter",
+                        fontSize: "0.875rem",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                        lineHeight: "1.25rem",
+                        maxWidth:"100px"
+                      }}
+                      >
+                        {row.description.length > 20 ? `${row.description.substring(0, 50)}...` : row.description}
+                      </TableCell></Tooltip>
 
-                    <TableCell align="center">{row.status}</TableCell>
-                    <TableCell align="right">{row.rate}<br />CAD</TableCell>
-                    <TableCell align="right">{row.balance}<br />CAD</TableCell>
-                    <TableCell align="right">{row.deposit}<br />CAD</TableCell>
-                  </TableRow>
+                    <TableCell align="center"><div className={`status status-${row.status.toLowerCase()}`}>{row.status}</div></TableCell>
+
+
+                    <TableCell align="right" sx={{
+                      color: "var(--Gray-700, #464F60)",
+                      textAlign: "right",
+                      fontVariantNumeric: "lining-nums tabular-nums",
+                      fontFamily: "Inter",
+                      fontSize: "0.875rem",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      lineHeight: "1.25rem",
+                    }}
+                    >${row.rate}<div className='subtext'>CAD</div></TableCell>
+                    <TableCell align="right" sx={{
+                      color: row.balance < 0 ? "var(--Red-500, #D12953)" : "var(--Green-500, #14804A)",
+                      textAlign: "right",
+                      fontVariantNumeric: "lining-nums tabular-nums",
+                      fontFamily: "Inter",
+                      fontSize: "0.875rem",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      lineHeight: "1.25rem",
+                    }}>
+                      {row.balance < 0 && '-'}
+                      ${Math.abs(row.balance)}
+                      <div className='subtext'>CAD</div>
+                    </TableCell>
+
+                    <TableCell align="right" sx={{
+                      color: "var(--Gray-700, #464F60)",
+                      textAlign: "right",
+                      fontVariantNumeric: "lining-nums tabular-nums",
+                      fontFamily: "Inter",
+                      fontSize: "0.875rem",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      lineHeight: "1.25rem",
+                    }}>${row.deposit}<div className='subtext'>CAD</div></TableCell>
+
+<TableCell align="center"><EditIcon color='action'/></TableCell>
+
+                  </StyledTableRow>
                 );
               })}
               {emptyRows > 0 && (
@@ -385,10 +470,10 @@ export default function EnhancedTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
-      />
+      /> */}
     </Box>
   );
 }

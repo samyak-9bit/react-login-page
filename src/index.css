@@ -220,13 +220,18 @@ body {
 
 .search-input-field {
     flex: 1 0 0;
-    color: var(--Gray-300, #A1A9B8);
-    font-family: Inter;
+    color: black;
+    font-family: "Inter";
     font-size: 0.875rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.25rem;
     border: #000;
+
+    &:focus {
+        outline: none; 
+        border: none; 
+      }
 }
 
 .search-input-field::placeholder {
@@ -267,7 +272,68 @@ body {
 .table-header {
     background: rgba(244, 247, 252, 0.75);
 }
+.status{
+display: inline-flex;
+padding: 0.0625rem 0.625rem;
+justify-content: center;
+align-items: center;
+gap: 0.375rem;
+border-radius: 0.625rem;
+font-family: "Inter";
+font-size: 0.75rem;
+font-style: normal;
+font-weight: 600;
+line-height: 1.125rem; /* 150% */
+letter-spacing: 0.0225rem;
+}
 
+.status-open{
+    background: var(--Indigo-0, #F0F1FA);
+    color: var(--Indigo-500, #4F5AED);
+}
+.status-paid{
+    background: var(--Green-0, #E1FCEF);
+    color: var(--Green-500, #14804A);
+}
+.status-inactive{
+    color: var(--Gray-600, #5A6376);
+background: var(--Gray-50, #E9EDF5);
+}
+.status-due{
+    background: var(--Red-0, #FAF0F3);
+    color: var(--Red-500, #D12953);
+}
+.subtext{
+    color: var(--Gray-500, #687182);
+text-align: right;
+
+/* Caption/c2 */
+font-family: "Inter";
+font-size: 0.75rem;
+font-style: normal;
+font-weight: 400;
+line-height: 1.125rem; /* 150% */
+letter-spacing: 0.0225rem;
+}
+.modal-header{
+    margin: auto;
+    font-family: "Inter";
+font-size: 0.95rem;
+font-style: normal;
+font-weight: 600;
+line-height: 1.125rem; /* 150% */
+letter-spacing: 0.0225rem;
+
+}
+.form-label{
+    font-family: "Inter";
+font-size: 0.95rem;
+font-style: normal;
+font-weight: 500;
+line-height: 1.125rem; /* 150% */
+letter-spacing: 0.0225rem;
+}
+  
 @media screen and (max-width: 768px) {
     .col-md-6 {
         margin: 2px;

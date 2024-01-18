@@ -4,10 +4,10 @@ export interface Fields {
   }
 
 export enum Status{
-  Open,
-  Paid,
-  Inactive,
-  Due
+  Open="Open",
+  Paid="Paid",
+  Inactive="Inactive",
+  Due="Due"
 }
 export interface TableData{
   id:number,
@@ -18,4 +18,23 @@ export interface TableData{
   rate:number,
   balance:number,
   deposit:number,
+}
+
+export interface FormData {
+  name: string;
+  description: string;
+  status: string;
+  rate: string;
+  balance: string;
+  deposit: string;
+}
+
+export interface ModalProps {
+  showModal: boolean;
+  setModal: (show: boolean) => void;
+}
+
+export interface Keywords{
+  key:string,
+  value:string
 }
