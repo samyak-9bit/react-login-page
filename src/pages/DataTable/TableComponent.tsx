@@ -24,6 +24,7 @@ import { Button } from 'react-bootstrap';
 import { styled } from '@mui/material/styles';
 import AddItem from './AddItem';
 import EditIcon from '@mui/icons-material/Edit';
+import { searchInStatement } from './keywords';
 
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -318,6 +319,9 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
+
+  const str = "Show me all fields with balance greater than 200"; 
+  searchInStatement(str,dummyData);
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
