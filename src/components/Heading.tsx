@@ -1,5 +1,6 @@
 import React from 'react'
 import { mainHeading, subHeading } from '../constants'
+import './LoginPageStyle.css'
 
 const Heading = () => {
   return (

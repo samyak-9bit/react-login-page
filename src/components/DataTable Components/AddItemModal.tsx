@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Modal, ModalBody, ModalHeader } from 'react-bootstrap'
 import { Form, Button } from 'react-bootstrap';
-import { FormData } from '../../types/types';
-import { ModalProps } from '../../types/types';
+import { FormData, ModalProps } from '../../types/types';
+import "./Styles.css";
 
 
-const AddItem: React.FC<ModalProps> = ({ showModal, setModal }) => {
+
+const AddItemModal: React.FC<ModalProps> = ({ showModal, setModal }) => {
 
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -127,4 +128,4 @@ const AddItem: React.FC<ModalProps> = ({ showModal, setModal }) => {
   )
 }
 
-export default AddItem
+export default AddItemModal

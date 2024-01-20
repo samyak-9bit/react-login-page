@@ -1,6 +1,6 @@
 import React from 'react'
 import Heading from '../components/Heading'
-import FormComponent from '../components/FormComponent'
+import LoginForm from '../components/LoginForm'
 
 const Login = () => {
   return (
@@ -10,7 +10,7 @@ const Login = () => {
         <div className='col-md-6 main-content'>
           <div className='content-box'>
             <Heading />
-            <FormComponent />
+            <LoginForm />
           </div>
         </div>
         {/* Image Section */}

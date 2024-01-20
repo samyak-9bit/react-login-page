@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Heading from './components/Heading';
 import { mainHeading, signInBtn, signInWithGoogleBtn, subHeading } from './constants';
-import FormComponent from './components/FormComponent';
+import FormComponent from './components/LoginForm';
 import fetchMock from 'fetch-mock';
 
 describe('Heading Component', () => {

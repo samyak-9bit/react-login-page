@@ -1,37 +1,29 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import { visuallyHidden } from '@mui/utils';
 import { TableData } from '../../types/types';
 import { dummyData } from './testData';
-import { Button } from 'react-bootstrap';
 import { styled } from '@mui/material/styles';
-import AddItem from './AddItem';
 import EditIcon from '@mui/icons-material/Edit';
-import { searchInStatement } from './keywords';
-
+import { searchInStatement } from './smartSearch';
+import './Styles.css';
+import EnhancedTableHead from './EnhancedTableHead';
+import EnhancedTableToolbar from './EnhancedTableToolbar';
+import { HeadCell,Order } from '../../types/types';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
     backgroundColor: " rgba(244, 247, 252, 0.75);",
   },
- 
+
   '&:last-child td, &:last-child th': {
     border: 0,
   },
@@ -47,7 +39,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
 
 function getComparator<Key extends keyof any>(
   order: Order,
@@ -73,172 +64,6 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   return stabilizedThis.map((el) => el[0]);
 }
 
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof TableData;
-  label: string;
-  numeric: boolean;
-}
-
-const headCells: readonly { id: keyof TableData; numeric: boolean; disablePadding: boolean; label: string }[] = [
-  { id: 'id', numeric: true, disablePadding: true, label: '#' },
-  { id: 'name', numeric: false, disablePadding: true, label: 'NAME' },
-  { id: 'description', numeric: false, disablePadding: false, label: 'DESCRIPTION' },
-  { id: 'status', numeric: true, disablePadding: false, label: 'STATUS' },
-  { id: 'rate', numeric: true, disablePadding: false, label: 'RATE' },
-  { id: 'balance', numeric: true, disablePadding: false, label: 'BALANCE' },
-  { id: 'deposit', numeric: true, disablePadding: false, label: 'DEPOSIT' },
-];
-
-interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof TableData) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
-  const createSortHandler =
-    (property: keyof TableData) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
-
-  return (
-    <TableHead className='table-header'>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? headCell.id === 'id' ? 'left' : headCell.id === 'status' ? 'center' : 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            sx={{
-              color: "var(--Gray-700, #464F60)",
-              fontFamily: "Inter",
-              fontSize: "0.6875rem",
-              fontStyle: "normal",
-              fontWeight: "700",
-              lineHeight: "1rem",
-              letterSpacing: "0.0275rem",
-              textTransform: "uppercase",
-            }}
-
-
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-          
-
-        ))}
-
-      <TableCell sx={{
-              color: "var(--Gray-700, #464F60)",
-              fontFamily: "Inter",
-              fontSize: "0.6875rem",
-              fontStyle: "normal",
-              fontWeight: "700",
-              lineHeight: "1rem",
-              letterSpacing: "0.0275rem",
-              textTransform: "uppercase",
-            }} align='center'>
-        Edit
-      </TableCell>
-      </TableRow>
-    </TableHead >
-  );
-}
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-  searchInput:string;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
-}
-
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
-  const [showModal, setShowModal] = React.useState<boolean>(false);
-
-  const addCustomer =()=>{
-    setShowModal(true)
-  }
- 
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 }
-      }}
-      className='table-heading'
-    >
-      <div className='table-heading'>
-
-        {/* Filter Button */}
-        <div className='filter-btn mt-3 ml-3'>
-          <img src="filter.png" alt="filter button" />
-        </div>
-
-        {/* Input Field */}
-        <form className='input-form mt-3 ml-3'>
-          <img src="Search.png" alt="search" />
-          <input type='text' placeholder='Search...' className='search-input-field' value={props.searchInput} onChange={props.handleInputChange}/>
-        </form>
-
-        {/* Add/Delete button */}
-
-        {numSelected > 0 ? (
-
-          <div className='delete-btn  mr-3 mt-3'>
-            <img src="delete.png" alt="filter button" />
-          </div>
-
-        ) : (
-
-          <Button variant="primary mt-3 mr-3" onClick={addCustomer}><span>+</span> Add Customer</Button>
-
-        )}
-
-        {/* Show no of checkbox selected */}
-        {numSelected > 0 && (
-          <span className='selected-checks mt-4 mr-3'>
-            {numSelected} selected
-          </span>
-        )}
-
-      <AddItem  showModal={showModal}  setModal={setShowModal} /> 
-      </div>
-     
-    </Toolbar>
-  );
-}
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
@@ -247,7 +72,7 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [rows,setRows]=React.useState<TableData[]>(dummyData);
+  const [rows, setRows] = React.useState<TableData[]>(dummyData);
   const [searchInput, setSearchInput] = React.useState<string>("");
 
   const handleRequestSort = (
@@ -258,6 +83,24 @@ export default function EnhancedTable() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
+  const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      if (searchInput.length !== 0) {
+        const newRows = searchInStatement(searchInput, dummyData);
+        console.log(`NewRows:::::${newRows}`);
+        // Use a callback function to update the rows state
+        setRows((prevRows) => {
+          return newRows.length > 0 ? newRows : prevRows;
+        });
+        // Use the useEffect hook to log the updated rows state
+        // React.useEffect(() => {
+        console.log(`Rows:::::${rows}`);
+        // }, [rows]);
+      }
+    }
+  };
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
@@ -319,13 +162,10 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
-
-  const str = "Show me all fields with balance greater than 200"; 
-  searchInStatement(str,dummyData);
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} handleInputChange={handleInputChange} searchInput={searchInput}/>
+        <EnhancedTableToolbar numSelected={selected.length} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -401,7 +241,7 @@ export default function EnhancedTable() {
                         fontStyle: "normal",
                         fontWeight: 400,
                         lineHeight: "1.25rem",
-                        maxWidth:"100px"
+                        maxWidth: "100px"
                       }}
                       >
                         {row.description.length > 20 ? `${row.description.substring(0, 50)}...` : row.description}
@@ -447,7 +287,7 @@ export default function EnhancedTable() {
                       lineHeight: "1.25rem",
                     }}>${row.deposit}<div className='subtext'>CAD</div></TableCell>
 
-<TableCell align="center"><EditIcon color='action'/></TableCell>
+                    <TableCell align="center"><EditIcon color='action' /></TableCell>
 
                   </StyledTableRow>
                 );

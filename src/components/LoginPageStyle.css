@@ -1,0 +1,162 @@
+.main-heading {
+    color: #030303;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 1.02px;
+    text-transform: uppercase;
+    text-align: left;
+    padding-left: 2px;
+}
+
+.sub-heading {
+    color: #636364;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+    text-align: left;
+    padding-left: 2px;
+}
+
+.content-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 19.62294rem;
+    margin: auto;
+}
+
+.form-control {
+    border-radius: 0.75rem !important;
+    width: 19.62294rem;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    background: rgba(196, 196, 196, 0.00);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.form-label {
+    color: #181818;
+    text-align: left;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.02625rem;
+    font-family: "Poppins";
+}
+
+.signin-button {
+    width: 19.62294rem;
+    height: 2.58194rem;
+    border-radius: 12px;
+    background: #EA454C;
+    box-shadow: 0px 4px 10px 0px rgba(233, 68, 75, 0.25);
+    border: none;
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.02625rem;
+
+}
+
+.signingoogle-button {
+    width: 19.62294rem;
+    height: 2.58194rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    background: rgba(234, 69, 76, 0.00);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.02625rem;
+}
+
+.google-icon {
+    width: 1.80738rem;
+    height: 1.80738rem;
+    flex-shrink: 0;
+}
+
+.form-control::placeholder {
+    color: #636364;
+    font-family: "Poppins";
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 0.02625rem;
+}
+
+.form-check-label {
+    color: #181818;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.0225rem;
+}
+
+.option-box {
+    width: 100%;
+    display: inline-flex;
+    position: relative;
+}
+
+.forgot-password-link {
+    color: #181818;
+    font-family: "Poppins";
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.0225rem;
+    position: absolute;
+    right: 0px;
+    margin-top: 5px;
+}
+
+.signup-text {
+    margin-top: 15px;
+    color: #595959;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 0.725rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.01875rem;
+}
+
+.signup-link {
+    color: #EA454C;
+    font-family: "Poppins";
+    font-size: 0.725rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.01875rem;
+}
+
+@media screen and (max-width: 768px) {
+    .col-md-6 {
+        margin: 2px;
+    }
+}

@@ -16,6 +16,7 @@ import {
 } from '../constants';
 import { Fields } from '../types/types';
 import styled from 'styled-components';
+import './LoginPageStyle.css'
 
 const Span = styled.span`
 color: #EA454C;
@@ -29,7 +30,7 @@ letter-spacing: 0.42px;
 padding-left: 2px;
 `
 
-const FormComponent: React.FC = () => {
+const LoginForm: React.FC = () => {
   const [fields, setFields] = useState<Fields>({ email: '', password: '' });
   const [message, setMessage]=useState<string>("");
   // const navigate = useNavigate();
@@ -136,4 +137,4 @@ const handleSignIn = async (e: FormEvent) => {
   );
 };
 
-export default FormComponent;
+export default LoginForm;

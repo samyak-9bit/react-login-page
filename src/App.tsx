@@ -2,11 +2,11 @@ import React from 'react';
 import './App.css';
 import { Row } from 'react-bootstrap';
 import Heading from './components/Heading';
-import FormComponent from './components/FormComponent';
+import FormComponent from './components/LoginForm';
 import Login from './pages/Login';
 import { Route, Routes } from 'react-router-dom';
 import PageNotFound from './pages/PageNotFound';
-import DataTable from './pages/DataTable/DataTable';
+import DataTable from './pages/DataTable';
 
 function App() {
   return (

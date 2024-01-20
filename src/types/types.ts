@@ -38,3 +38,28 @@ export interface Keywords{
   key:string,
   value:string
 }
+
+export interface HeadCell {
+  disablePadding: boolean;
+  id: keyof TableData;
+  label: string;
+  numeric: boolean;
+}
+
+export type Order = 'asc' | 'desc';
+
+export interface EnhancedTableHeadProps {
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order: Order;
+  orderBy: string;
+  numSelected: number;
+  rowCount: number;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof TableData) => void;
+}
+
+export interface EnhancedTableToolbarProps {
+  numSelected: number;
+  searchInput: string;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEnterKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+}

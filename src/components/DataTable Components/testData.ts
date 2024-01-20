@@ -1,5 +1,6 @@
 import { Status, TableData } from "../../types/types";
 
+
 export const dummyData:TableData[]=[
 {
     id:1,
@@ -48,7 +49,7 @@ export const dummyData:TableData[]=[
     description:"Ldjkd sdfjkdbf cbsjds dhjkhd ei djadj iasdn idhakdn  asdhiasda usadha",
     status:Status.Open,
     rate:70.00,
-    balance:270.00,
+    balance:100.00,
     deposit:500.00,
 },
 {
@@ -68,7 +69,7 @@ export const dummyData:TableData[]=[
     description:"Ldjkd sdfjkdbf cbsjds dhjkhd ei djadj iasdn idhakdn  asdhiasda usadha",
     status:Status.Due,
     rate:70.00,
-    balance:-270.00,
+    balance:289.00,
     deposit:500.00,
 },
 {
@@ -78,7 +79,7 @@ export const dummyData:TableData[]=[
     description:"Ldjkd sdfjkdbf cbsjds dhjkhd ei djadj iasdn idhakdn  asdhiasda usadha",
     status:Status.Paid,
     rate:70.00,
-    balance:270.00,
+    balance:200.00,
     deposit:500.00,
 },
 ];
