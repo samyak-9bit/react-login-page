@@ -76,26 +76,31 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState<TableData[]>(dummyData);
   const [searchInput, setSearchInput] = React.useState<string>("");
-  // const [urlString,setUrlString]=React.useState<string>(productUrl);
-  // const [data, setData] = React.useState(null);
-  // const [loading, setLoading] = React.useState<boolean>(true);
-  // const [error, setError] = React.useState<Error|null>(null);
+  const [urlString,setUrlString]=React.useState<string>(productUrl);
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<Error|null>(null);
+  const [keysArray, setKeysArray] = React.useState<string[]>([]);
 
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(urlString); 
-  //       setData(response.data);
-  //       console.log(data);
-  //     } catch (error) {
-  //       setError(error as Error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
 
-  //   fetchData();
-  // }, [urlString]);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(urlString); 
+        setData(response.data);
+        const keysArray = response.data.length > 0 ? Object.keys(response.data[0]) : [];
+        setKeysArray(keysArray);
+        console.log(data);
+        console.log(keysArray);
+      } catch (error) {
+        setError(error as Error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [urlString]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -186,9 +191,9 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* {loading && <p>Loading...</p>}
+      {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && ( */}
+      {data && (
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
         <TableContainer>
@@ -339,10 +344,10 @@ export default function EnhancedTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-         {/* <p>{JSON.stringify(data)}</p> */}
+         <p>{JSON.stringify(data)}</p>
       </Paper>
      
-      {/* )} */}
+       )} 
       
       {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
