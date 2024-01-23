@@ -19,6 +19,14 @@ export const keywords: Keywords[] = [
         value: "="
     },
     {
+        key: "lower",
+        value: "<"
+    },
+    {
+        key: "higher",
+        value: ">"
+    },
+    {
         key: "is",
         value: "="
     },
