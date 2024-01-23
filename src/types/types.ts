@@ -55,6 +55,7 @@ export interface EnhancedTableHeadProps {
   numSelected: number;
   rowCount: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof TableData) => void;
+  dynamicColumns:string[];
 }
 
 export interface EnhancedTableToolbarProps {

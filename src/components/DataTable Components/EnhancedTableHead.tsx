@@ -12,28 +12,31 @@ import { HeadCell, Order, EnhancedTableHeadProps } from '../../types/types';
 
 
 
-const headCells: readonly { id: keyof TableData; numeric: boolean; disablePadding: boolean; label: string }[] = [
-    { id: 'id', numeric: true, disablePadding: true, label: '#' },
-    { id: 'name', numeric: false, disablePadding: true, label: 'NAME' },
-    { id: 'description', numeric: false, disablePadding: false, label: 'DESCRIPTION' },
-    { id: 'status', numeric: true, disablePadding: false, label: 'STATUS' },
-    { id: 'rate', numeric: true, disablePadding: false, label: 'RATE' },
-    { id: 'balance', numeric: true, disablePadding: false, label: 'BALANCE' },
-    { id: 'deposit', numeric: true, disablePadding: false, label: 'DEPOSIT' },
-  ];
+// const headCells: readonly { id: keyof TableData; numeric: boolean; disablePadding: boolean; label: string }[] = [
+//     { id: 'id', numeric: true, disablePadding: true, label: '#' },
+//     { id: 'name', numeric: false, disablePadding: true, label: 'NAME' },
+//     { id: 'description', numeric: false, disablePadding: false, label: 'DESCRIPTION' },
+//     { id: 'status', numeric: true, disablePadding: false, label: 'STATUS' },
+//     { id: 'rate', numeric: true, disablePadding: false, label: 'RATE' },
+//     { id: 'balance', numeric: true, disablePadding: false, label: 'BALANCE' },
+//     { id: 'deposit', numeric: true, disablePadding: false, label: 'DEPOSIT' },
+//   ];
 
 
 const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,dynamicColumns  } = props;
 
   const createSortHandler = (property: keyof TableData) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
+  const headCells = dynamicColumns.map((i)=>{
+    return { id: i,numeric: false, disablePadding: true, label: i.toUpperCase() }
+  })
   return (
     <TableHead className="table-header">
       <TableRow>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -43,19 +46,11 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
               'aria-label': 'select all desserts',
             }}
           />
-        </TableCell>
+        </TableCell> */}
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={
-              headCell.numeric
-                ? headCell.id === 'id'
-                  ? 'left'
-                  : headCell.id === 'status'
-                  ? 'center'
-                  : 'right'
-                : 'left'
-            }
+            align='center'
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
@@ -72,7 +67,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              // onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -83,7 +78,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell
+        {/* <TableCell
           sx={{
             color: 'var(--Gray-700, #464F60)',
             fontFamily: 'Inter',
@@ -97,7 +92,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
           align="center"
         >
           Edit
-        </TableCell>
+        </TableCell> */}
       </TableRow>
     </TableHead>
   );

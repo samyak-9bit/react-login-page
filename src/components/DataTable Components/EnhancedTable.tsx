@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Tooltip from '@mui/material/Tooltip';
 import { TableData } from '../../types/types';
-import { dummyData } from './testData';
+import { dummyData, dummyDynamicData } from './testData';
 import { styled } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import { searchInStatement } from './smartSearch';
@@ -18,7 +18,7 @@ import './Styles.css';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
 import { HeadCell,Order } from '../../types/types';
-import { productUrl } from './uslStrings';
+import { carUrl, productUrl } from './uslStrings';
 import axios from 'axios';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -76,11 +76,25 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState<TableData[]>(dummyData);
   const [searchInput, setSearchInput] = React.useState<string>("");
-  const [urlString,setUrlString]=React.useState<string>(productUrl);
-  const [data, setData] = React.useState(null);
+  const [urlString,setUrlString]=React.useState<string>(carUrl);
+  const [data, setData] = React.useState<Object[] | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<Error|null>(null);
   const [keysArray, setKeysArray] = React.useState<string[]>([]);
+
+
+//dynamic interface generator
+// const metaData = dummyDynamicData.type;
+// type MetaDataKeys = keyof typeof metaData;
+// type Data = {
+//   [key in MetaDataKeys]: string; 
+// };
+// const dynamicInterface: Data = {} as Data;
+// for (const key in metaData) {
+//   dynamicInterface[key as MetaDataKeys] = (metaData[key as MetaDataKeys]).toLowerCase();
+// }
+// console.log(dynamicInterface);
+
 
 
   React.useEffect(() => {
@@ -90,6 +104,7 @@ export default function EnhancedTable() {
         setData(response.data);
         const keysArray = response.data.length > 0 ? Object.keys(response.data[0]) : [];
         setKeysArray(keysArray);
+        setRows(response.data);
         console.log(data);
         console.log(keysArray);
       } catch (error) {
@@ -180,14 +195,14 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
+  // const visibleRows = React.useMemo(
+  //   () =>
+  //     stableSort(rows, getComparator(order, orderBy)).slice(
+  //       page * rowsPerPage,
+  //       page * rowsPerPage + rowsPerPage,
+  //     ),
+  //   [order, orderBy, page, rowsPerPage],
+  // );
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -209,10 +224,11 @@ export default function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              dynamicColumns={keysArray}
 
             />
-            <TableBody>
-              {visibleRows.map((row, index) => {
+            {/* <TableBody>
+              {data.map((item) => {
                 const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -332,10 +348,46 @@ export default function EnhancedTable() {
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
+            </TableBody> */}
+            <TableBody>
+              {
+                data.map((item,index)=>{
+                  if (typeof item === 'object' && item !== null) {
+                    const valuesArray = Object.values(item);
+                    return (
+                      <StyledTableRow
+                    hover
+                    onClick={(event) => handleClick(event, index)}
+                    role="checkbox"
+                    // aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={index}
+                    // selected={isItemSelected}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                        {valuesArray.map((value, columnIndex) => (
+                          <TableCell key={columnIndex} align="center" sx={{
+                            color: "var(--Gray-700, #464F60)",
+                            fontFamily: "Inter",
+                            fontSize: "0.875rem",
+                            fontStyle: "normal",
+                            fontWeight: 400,
+                            lineHeight: "1.25rem",
+                            
+                          }}>
+                            {typeof value === 'object' ? `${value.rate}, ${value.count}` : value}
+                          </TableCell>
+                        ))}
+                      </StyledTableRow>
+                    );
+                  }
+                  return null;
+                })
+              }
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -344,7 +396,7 @@ export default function EnhancedTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-         <p>{JSON.stringify(data)}</p>
+         <p>{JSON.stringify(data)}</p> */}
       </Paper>
      
        )} 

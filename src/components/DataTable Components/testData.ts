@@ -83,3 +83,47 @@ export const dummyData:TableData[]=[
     deposit:500.00,
 },
 ];
+
+
+export const dummyDynamicData = {
+    "type": {
+        "num_models": "Number",
+        "img_url": "URL",
+        "max_car_id": "Number",
+        "id": "Number",
+        "name": "String",
+        "avg_horsepower": "Number",
+        "avg_price": "Number"
+    },
+    "data": [
+        {
+            "num_models": 3,
+            "img_url": "http://www.carlogos.org/uploads/car-logos/Chrysler-logo-1.jpg",
+            "max_car_id": 104,
+            "id": 1,
+            "name": "chrysler",
+            "avg_horsepower": 291,
+            "avg_price": 32971
+          },
+          {
+            "num_models": 8,
+            "img_url": "http://www.carlogos.org/uploads/car-logos/Honda-logo-1.jpg",
+            "max_car_id": 152,
+            "id": 2,
+            "name": "honda",
+            "avg_horsepower": 190,
+            "avg_price": 27965
+          }
+    ]
+}
+
+const metaData = dummyDynamicData.type;
+type MetaDataKeys = keyof typeof metaData;
+type Data = {
+  [key in MetaDataKeys]: string; 
+};
+const dynamicInterface: Data = {} as Data;
+for (const key in metaData) {
+  dynamicInterface[key as MetaDataKeys] = metaData[key as MetaDataKeys];
+}
+console.log(dynamicInterface);
