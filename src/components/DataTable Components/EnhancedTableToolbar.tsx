@@ -4,6 +4,9 @@ import { Button } from 'react-bootstrap';
 import AddItemModal from './AddItemModal';
 import './Styles.css';
 import { EnhancedTableToolbarProps } from '../../types/types';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { carUrl, countryUrl } from './uslStrings';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const { numSelected } = props;
@@ -16,6 +19,15 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
+
+  const setCar=()=>{
+    props.setUrlString(carUrl);
+  }
+
+  const setCountry=()=>{
+    props.setUrlString(countryUrl);
+  }
+
 
   return (
     <Toolbar
@@ -61,6 +73,17 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
             {numSelected} selected
           </span>
         )}
+
+    <Dropdown className='switcher mt-3 mr-3'>
+      <Dropdown.Toggle variant="primary" id="dropdown-basic">
+      Table Context
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item href="#/action-1" onClick={setCar}>Car</Dropdown.Item>
+        <Dropdown.Item href="#/action-2" onClick={setCountry}>Country</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
 
         <AddItemModal showModal={showModal} setModal={setShowModal} />
       </div>

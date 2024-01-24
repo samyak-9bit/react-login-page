@@ -5,7 +5,7 @@ import Toolbar from '../components/Toolbar'
 const DataTable = () => {
   return (
     <div>
-      {/* <Toolbar/> */}
+      <Toolbar/>
       <EnhancedTable/>
       
     </div>

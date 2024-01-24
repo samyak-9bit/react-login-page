@@ -1,4 +1,4 @@
-import { Keywords, TableData } from "../../types/types";
+import { Keywords} from "../../types/types";
 
 
 export const keywords: Keywords[] = [
@@ -32,49 +32,31 @@ export const keywords: Keywords[] = [
     },
 ]
 
-const attributes: string[] = ["id", "name", "phone", "description", "status", "rate", "balance", "deposit"]
+// const attributes: string[] = ["id", "name", "phone", "description", "status", "rate", "balance", "deposit"]
 
 
 // Function to get attributes of table data
-export const getAttribute = (item: TableData, operand1: string) => {
-    switch (operand1) {
-        case "id":
-            return item.id;
-        case "balance":
-            return item.balance;
-        case "deposit":
-            return item.deposit;
-        case "rate":
-            return item.rate;
-        case "description":
-            return item.description;
-        case "name":
-            return item.name;
-        case "phone":
-            return item.phone;
-        case "status":
-            return item.status;
-
-    }
+export const getAttribute = (item:Object, operand1: keyof Object):any => {
+    return item[operand1];
 
 }
 
 
 // Function to filter the array
-export const filterArray = (arr: TableData[], operand1: string, operator: string, operand2: string): TableData[] => {
+export const filterArray = (arr: Object[], operand1: keyof Object, operator: string, operand2: string): Object[] => {
     switch (operator) {
         case ">":
-            return arr.filter((item: TableData) => {
+            return arr.filter((item: Object) => {
                 const value = getAttribute(item, operand1);
                 return typeof value === 'number' && value > Number(operand2);
             });
         case "<":
-            return arr.filter((item: TableData) => {
+            return arr.filter((item: Object) => {
                 const value = getAttribute(item, operand1);
                 return typeof value === 'number' && value < Number(operand2);
             });
         case "=":
-            return arr.filter((item: TableData) => {
+            return arr.filter((item: Object) => {
                 const value = getAttribute(item, operand1);
                 if (typeof value === 'number') {
                     return value === Number(operand2);
@@ -88,7 +70,7 @@ export const filterArray = (arr: TableData[], operand1: string, operator: string
 
 
 // Function to implement the smart Search
-export const searchInStatement = (str: string, arr: TableData[]): TableData[] => {
+export const searchInStatement = (str: string, arr: Object[], attributes:string[]): Object[] => {
 
     const wordsArray = str.toLowerCase().split(/\s+/);
     let previousIndex = -1;
@@ -114,7 +96,7 @@ export const searchInStatement = (str: string, arr: TableData[]): TableData[] =>
                         operand2 = wordsArray[operatorIndex + 1];
                     }
                     console.log(`Operand2 ${operand2}`);
-                    const filteredArray = filterArray(arr, operand1, match.value, operand2);
+                    const filteredArray = filterArray(arr, operand1 as keyof Object, match.value, operand2);
 
                     console.log(`Filtered Array:`);
                     filteredArray.forEach(item => {

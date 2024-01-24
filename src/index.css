@@ -27,4 +27,7 @@ body {
     color: white;
     float: right; 
 }
-  
+.navbar-heading{
+   float: left;
+    color: aliceblue;
+}

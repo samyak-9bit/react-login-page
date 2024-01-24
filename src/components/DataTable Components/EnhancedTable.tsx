@@ -18,7 +18,7 @@ import './Styles.css';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
 import { HeadCell,Order } from '../../types/types';
-import { carUrl, productUrl } from './uslStrings';
+import { carUrl, countryUrl} from './uslStrings';
 import axios from 'axios';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -77,7 +77,7 @@ export default function EnhancedTable() {
   const [rows, setRows] = React.useState<TableData[]>(dummyData);
   const [searchInput, setSearchInput] = React.useState<string>("");
   const [urlString,setUrlString]=React.useState<string>(carUrl);
-  const [data, setData] = React.useState<Object[] | null>(null);
+  const [data, setData] = React.useState<Object[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<Error|null>(null);
   const [keysArray, setKeysArray] = React.useState<string[]>([]);
@@ -97,16 +97,65 @@ export default function EnhancedTable() {
 
 
 
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(urlString); 
+  //       setData(response.data.data);
+  //       const keysArray = Object.keys(response.data.attributeTypes);
+  //       setKeysArray(keysArray);
+  //       setRows(response.data);
+  //       console.log(data);
+  //       console.log(keysArray);
+  //     } catch (error) {
+  //       setError(error as Error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [urlString]);
+
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(urlString); 
-        setData(response.data);
-        const keysArray = response.data.length > 0 ? Object.keys(response.data[0]) : [];
-        setKeysArray(keysArray);
+        // Check if cached data is available
+        const cachedData = localStorage.getItem(`cachedData-${urlString}`);
+        const cachedTimestamp = localStorage.getItem('cachedTimestamp');
+
+        if (cachedData && cachedTimestamp) {
+          const currentTime = new Date().getTime();
+          const elapsedTime = currentTime - parseInt(cachedTimestamp);
+
+          // If the cached data is less than 10 minutes old, use it
+          if (elapsedTime < 10 * 60 * 1000) {
+            setData((JSON.parse(cachedData)).data);
+            setKeysArray(Object.keys(JSON.parse(cachedData).attributeTypes));
+            setRows((JSON.parse(cachedData)).data);
+            setLoading(false);
+            return;
+          } else {
+            // If the cached data is older than 10 minutes, delete it
+            localStorage.removeItem(`cachedData-${urlString}`);
+            localStorage.removeItem('cachedTimestamp');
+          }
+        }
+
+        // If no cached data or the cached data is older than 10 minutes, fetch new data
+        const response = await axios.get(urlString);
+        setData(response.data.data);
+        const newKeysArray = Object.keys(response.data.attributeTypes);
+        setKeysArray(newKeysArray);
         setRows(response.data);
+
+        // Cache the new data
+        localStorage.setItem(`cachedData-${urlString}`, JSON.stringify(response.data));
+        localStorage.setItem('cachedTimestamp', new Date().getTime().toString());
+
         console.log(data);
-        console.log(keysArray);
+        console.log(newKeysArray);
       } catch (error) {
         setError(error as Error);
       } finally {
@@ -116,6 +165,8 @@ export default function EnhancedTable() {
 
     fetchData();
   }, [urlString]);
+
+
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -129,10 +180,10 @@ export default function EnhancedTable() {
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       if (searchInput.length !== 0) {
-        const newRows = searchInStatement(searchInput, dummyData);
-        console.log(`NewRows:::::${newRows}`);
+        const newRows = searchInStatement(searchInput, data,keysArray);
+        console.log(`NewRows:::::${JSON.stringify(newRows)}`);
         // Use a callback function to update the rows state
-        setRows((prevRows) => {
+        setData((prevRows) => {
           return newRows.length > 0 ? newRows : prevRows;
         });
         // Use the useEffect hook to log the updated rows state
@@ -210,7 +261,7 @@ export default function EnhancedTable() {
       {error && <p>Error: {error.message}</p>}
       {data && (
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
+        <EnhancedTableToolbar numSelected={selected.length} setUrlString={setUrlString} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -349,7 +400,7 @@ export default function EnhancedTable() {
                 </TableRow>
               )}
             </TableBody> */}
-            <TableBody>
+            <TableBody >
               {
                 data.map((item,index)=>{
                   if (typeof item === 'object' && item !== null) {

@@ -11,7 +11,6 @@ import './Styles.css';
 import { HeadCell, Order, EnhancedTableHeadProps } from '../../types/types';
 
 
-
 // const headCells: readonly { id: keyof TableData; numeric: boolean; disablePadding: boolean; label: string }[] = [
 //     { id: 'id', numeric: true, disablePadding: true, label: '#' },
 //     { id: 'name', numeric: false, disablePadding: true, label: 'NAME' },

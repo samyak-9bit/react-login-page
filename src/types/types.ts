@@ -58,9 +58,12 @@ export interface EnhancedTableHeadProps {
   dynamicColumns:string[];
 }
 
+type SetString = React.Dispatch<React.SetStateAction<string>>;
+
 export interface EnhancedTableToolbarProps {
   numSelected: number;
   searchInput: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleEnterKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  setUrlString: SetString;
 }
