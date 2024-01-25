@@ -17,9 +17,10 @@ import { searchInStatement } from './smartSearch';
 import './Styles.css';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
-import { HeadCell,Order } from '../../types/types';
-import { carUrl, countryUrl} from './uslStrings';
+import { HeadCell, Order } from '../../types/types';
+import { carUrl, countryUrl } from './uslStrings';
 import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
@@ -76,24 +77,24 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState<TableData[]>(dummyData);
   const [searchInput, setSearchInput] = React.useState<string>("");
-  const [urlString,setUrlString]=React.useState<string>(carUrl);
+  const [urlString, setUrlString] = React.useState<string>(carUrl);
   const [data, setData] = React.useState<Object[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<Error|null>(null);
+  const [error, setError] = React.useState<Error | null>(null);
   const [keysArray, setKeysArray] = React.useState<string[]>([]);
 
 
-//dynamic interface generator
-// const metaData = dummyDynamicData.type;
-// type MetaDataKeys = keyof typeof metaData;
-// type Data = {
-//   [key in MetaDataKeys]: string; 
-// };
-// const dynamicInterface: Data = {} as Data;
-// for (const key in metaData) {
-//   dynamicInterface[key as MetaDataKeys] = (metaData[key as MetaDataKeys]).toLowerCase();
-// }
-// console.log(dynamicInterface);
+  //dynamic interface generator
+  // const metaData = dummyDynamicData.type;
+  // type MetaDataKeys = keyof typeof metaData;
+  // type Data = {
+  //   [key in MetaDataKeys]: string; 
+  // };
+  // const dynamicInterface: Data = {} as Data;
+  // for (const key in metaData) {
+  //   dynamicInterface[key as MetaDataKeys] = (metaData[key as MetaDataKeys]).toLowerCase();
+  // }
+  // console.log(dynamicInterface);
 
 
 
@@ -180,7 +181,7 @@ export default function EnhancedTable() {
   const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       if (searchInput.length !== 0) {
-        const newRows = searchInStatement(searchInput, data,keysArray);
+        const newRows = searchInStatement(searchInput, data, keysArray);
         console.log(`NewRows:::::${JSON.stringify(newRows)}`);
         // Use a callback function to update the rows state
         setData((prevRows) => {
@@ -256,12 +257,21 @@ export default function EnhancedTable() {
   // );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {data && (
+    <Box sx={{ width: '100%'}}>
+
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} setUrlString={setUrlString} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
+        {loading && 
+          <div className='mt-3 ml-3'>
+            
+            <Spinner animation="border" role="status">
+            <span className="visually-hidden"></span>
+          </Spinner> <br></br>
+            <h5>Loading...</h5>
+     </div>
+     }
+      {error && <p className='mt-3 ml-3'>Error: {error.message}</p>}
+      {data && (
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -279,143 +289,143 @@ export default function EnhancedTable() {
 
             />
             {/* <TableBody>
-              {data.map((item) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+            //   {data.map((item) => {
+            //     const isItemSelected = isSelected(row.id);
+            //     const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <StyledTableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="left" sx={{
-                      color: "var(--Gray-900, #171C26)",
-                      fontFamily: "Inter",
-                      fontSize: "0.875rem",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      lineHeight: "1.25rem",
-                      letterSpacing: "0.0175rem",
-                    }}
-                    >{row.id}</TableCell>
-                    <TableCell align="left" className='p-0' sx={{
-                      color: "var(--Gray-900, #171C26)",
-                      fontFamily: "Inter",
-                      fontSize: "0.875rem",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      lineHeight: "1.25rem",
-                      letterSpacing: "0.0175rem",
-                    }}
-                    >{row.name}<div style={{
-                      color: "var(--Gray-500, #687182)",
-                      fontFamily: "Inter",
-                      fontSize: "0.75rem",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "1.125rem",
-                      letterSpacing: "0.0225rem",
-                    }}>{row.phone}</div></TableCell>
-                    <Tooltip title={row.description}>
-                      <TableCell align="left" sx={{
-                        color: "var(--Gray-700, #464F60)",
-                        fontFamily: "Inter",
-                        fontSize: "0.875rem",
-                        fontStyle: "normal",
-                        fontWeight: 400,
-                        lineHeight: "1.25rem",
-                        maxWidth: "100px"
-                      }}
-                      >
-                        {row.description.length > 20 ? `${row.description.substring(0, 50)}...` : row.description}
-                      </TableCell></Tooltip>
+            //     return (
+            //       <StyledTableRow
+            //         hover
+            //         onClick={(event) => handleClick(event, row.id)}
+            //         role="checkbox"
+            //         aria-checked={isItemSelected}
+            //         tabIndex={-1}
+            //         key={row.id}
+            //         selected={isItemSelected}
+            //         sx={{ cursor: 'pointer' }}
+            //       >
+            //         <TableCell padding="checkbox">
+            //           <Checkbox
+            //             color="primary"
+            //             checked={isItemSelected}
+            //             inputProps={{
+            //               'aria-labelledby': labelId,
+            //             }}
+            //           />
+            //         </TableCell>
+            //         <TableCell align="left" sx={{
+            //           color: "var(--Gray-900, #171C26)",
+            //           fontFamily: "Inter",
+            //           fontSize: "0.875rem",
+            //           fontStyle: "normal",
+            //           fontWeight: 600,
+            //           lineHeight: "1.25rem",
+            //           letterSpacing: "0.0175rem",
+            //         }}
+            //         >{row.id}</TableCell>
+            //         <TableCell align="left" className='p-0' sx={{
+            //           color: "var(--Gray-900, #171C26)",
+            //           fontFamily: "Inter",
+            //           fontSize: "0.875rem",
+            //           fontStyle: "normal",
+            //           fontWeight: 600,
+            //           lineHeight: "1.25rem",
+            //           letterSpacing: "0.0175rem",
+            //         }}
+            //         >{row.name}<div style={{
+            //           color: "var(--Gray-500, #687182)",
+            //           fontFamily: "Inter",
+            //           fontSize: "0.75rem",
+            //           fontStyle: "normal",
+            //           fontWeight: 400,
+            //           lineHeight: "1.125rem",
+            //           letterSpacing: "0.0225rem",
+            //         }}>{row.phone}</div></TableCell>
+            //         <Tooltip title={row.description}>
+            //           <TableCell align="left" sx={{
+            //             color: "var(--Gray-700, #464F60)",
+            //             fontFamily: "Inter",
+            //             fontSize: "0.875rem",
+            //             fontStyle: "normal",
+            //             fontWeight: 400,
+            //             lineHeight: "1.25rem",
+            //             maxWidth: "100px"
+            //           }}
+            //           >
+            //             {row.description.length > 20 ? `${row.description.substring(0, 50)}...` : row.description}
+            //           </TableCell></Tooltip>
 
-                    <TableCell align="center"><div className={`status status-${row.status.toLowerCase()}`}>{row.status}</div></TableCell>
+            //         <TableCell align="center"><div className={`status status-${row.status.toLowerCase()}`}>{row.status}</div></TableCell>
 
 
-                    <TableCell align="right" sx={{
-                      color: "var(--Gray-700, #464F60)",
-                      textAlign: "right",
-                      fontVariantNumeric: "lining-nums tabular-nums",
-                      fontFamily: "Inter",
-                      fontSize: "0.875rem",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      lineHeight: "1.25rem",
-                    }}
-                    >${row.rate}<div className='subtext'>CAD</div></TableCell>
-                    <TableCell align="right" sx={{
-                      color: row.balance < 0 ? "var(--Red-500, #D12953)" : "var(--Green-500, #14804A)",
-                      textAlign: "right",
-                      fontVariantNumeric: "lining-nums tabular-nums",
-                      fontFamily: "Inter",
-                      fontSize: "0.875rem",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      lineHeight: "1.25rem",
-                    }}>
-                      {row.balance < 0 && '-'}
-                      ${Math.abs(row.balance)}
-                      <div className='subtext'>CAD</div>
-                    </TableCell>
+            //         <TableCell align="right" sx={{
+            //           color: "var(--Gray-700, #464F60)",
+            //           textAlign: "right",
+            //           fontVariantNumeric: "lining-nums tabular-nums",
+            //           fontFamily: "Inter",
+            //           fontSize: "0.875rem",
+            //           fontStyle: "normal",
+            //           fontWeight: 500,
+            //           lineHeight: "1.25rem",
+            //         }}
+            //         >${row.rate}<div className='subtext'>CAD</div></TableCell>
+            //         <TableCell align="right" sx={{
+            //           color: row.balance < 0 ? "var(--Red-500, #D12953)" : "var(--Green-500, #14804A)",
+            //           textAlign: "right",
+            //           fontVariantNumeric: "lining-nums tabular-nums",
+            //           fontFamily: "Inter",
+            //           fontSize: "0.875rem",
+            //           fontStyle: "normal",
+            //           fontWeight: 500,
+            //           lineHeight: "1.25rem",
+            //         }}>
+            //           {row.balance < 0 && '-'}
+            //           ${Math.abs(row.balance)}
+            //           <div className='subtext'>CAD</div>
+            //         </TableCell>
 
-                    <TableCell align="right" sx={{
-                      color: "var(--Gray-700, #464F60)",
-                      textAlign: "right",
-                      fontVariantNumeric: "lining-nums tabular-nums",
-                      fontFamily: "Inter",
-                      fontSize: "0.875rem",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      lineHeight: "1.25rem",
-                    }}>${row.deposit}<div className='subtext'>CAD</div></TableCell>
+            //         <TableCell align="right" sx={{
+            //           color: "var(--Gray-700, #464F60)",
+            //           textAlign: "right",
+            //           fontVariantNumeric: "lining-nums tabular-nums",
+            //           fontFamily: "Inter",
+            //           fontSize: "0.875rem",
+            //           fontStyle: "normal",
+            //           fontWeight: 500,
+            //           lineHeight: "1.25rem",
+            //         }}>${row.deposit}<div className='subtext'>CAD</div></TableCell>
 
-                    <TableCell align="center"><EditIcon color='action' /></TableCell>
+            //         <TableCell align="center"><EditIcon color='action' /></TableCell>
 
-                  </StyledTableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody> */}
+            //       </StyledTableRow>
+            //     );
+            //   })}
+            //   {emptyRows > 0 && (
+            //     <TableRow
+            //       style={{
+            //         height: (dense ? 33 : 53) * emptyRows,
+            //       }}
+            //     >
+            //       <TableCell colSpan={6} />
+            //     </TableRow>
+            //   )}
+            // </TableBody> */}
             <TableBody >
               {
-                data.map((item,index)=>{
+                data.map((item, index) => {
                   if (typeof item === 'object' && item !== null) {
                     const valuesArray = Object.values(item);
                     return (
                       <StyledTableRow
-                    hover
-                    onClick={(event) => handleClick(event, index)}
-                    role="checkbox"
-                    // aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={index}
-                    // selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
+                        hover
+                        onClick={(event) => handleClick(event, index)}
+                        role="checkbox"
+                        // aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={index}
+                        // selected={isItemSelected}
+                        sx={{ cursor: 'pointer' }}
+                      >
                         {valuesArray.map((value, columnIndex) => (
                           <TableCell key={columnIndex} align="center" sx={{
                             color: "var(--Gray-700, #464F60)",
@@ -424,7 +434,7 @@ export default function EnhancedTable() {
                             fontStyle: "normal",
                             fontWeight: 400,
                             lineHeight: "1.25rem",
-                            
+
                           }}>
                             {typeof value === 'object' ? `${value.rate}, ${value.count}` : value}
                           </TableCell>
@@ -438,7 +448,8 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination
+      )}
+      {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -448,14 +459,14 @@ export default function EnhancedTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
          <p>{JSON.stringify(data)}</p> */}
-      </Paper>
+    </Paper>
      
-       )} 
+        
       
       {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       /> */}
-    </Box>
+    </Box >
   );
 }

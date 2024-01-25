@@ -67,7 +67,7 @@
 
 .btn {
     color: var(--White, #FFF);
-    font-family: Inter;
+    font-family: "Inter" ;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 500;

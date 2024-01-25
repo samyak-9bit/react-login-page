@@ -67,3 +67,8 @@ export interface EnhancedTableToolbarProps {
   handleEnterKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   setUrlString: SetString;
 }
+
+export interface MyObject {
+  id: number; 
+  [key: string]: any; 
+}

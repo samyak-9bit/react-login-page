@@ -30,4 +30,8 @@ body {
 .navbar-heading{
    float: left;
     color: aliceblue;
+    font-family: "Poppins";
+    font-weight: 500;
+
+
 }
