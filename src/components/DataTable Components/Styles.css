@@ -157,3 +157,14 @@ letter-spacing: 0.0225rem;
 .switcher{
     float: right;
 }
+.error-expression{
+    font-family: "Inter";
+    font-size: 0.95rem;
+    font-style: normal;
+    font-weight: 550;
+    line-height: 1.125rem; /* 150% */
+    letter-spacing: 0.0225rem;
+    position: relative;
+    top: 20px;
+    color: #D12953;
+}

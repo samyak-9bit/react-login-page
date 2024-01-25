@@ -41,7 +41,7 @@ export interface Keywords{
 
 export interface HeadCell {
   disablePadding: boolean;
-  id: keyof TableData;
+  id: keyof MyObject;
   label: string;
   numeric: boolean;
 }
@@ -51,10 +51,10 @@ export type Order = 'asc' | 'desc';
 export interface EnhancedTableHeadProps {
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
-  orderBy: string;
+  orderBy: string|number;
   numSelected: number;
   rowCount: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof TableData) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof MyObject) => void;
   dynamicColumns:string[];
 }
 
@@ -66,6 +66,7 @@ export interface EnhancedTableToolbarProps {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleEnterKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   setUrlString: SetString;
+  invalidInputMsg:string;
 }
 
 export interface MyObject {

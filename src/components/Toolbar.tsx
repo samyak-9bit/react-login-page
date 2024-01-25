@@ -3,6 +3,7 @@ import React from 'react'
 import { Navbar } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { Tooltip } from '@mui/material';
 
 const Toolbar = () => {
   return (
@@ -11,7 +12,7 @@ const Toolbar = () => {
         
         <span className='navbar-heading '><ManageSearchIcon fontSize='large'/> Smart Search Table</span>
  
-        <AccountCircleIcon className='user-icon' fontSize='large'></AccountCircleIcon>
+       <Tooltip title="User.."><AccountCircleIcon className='user-icon' fontSize='large'></AccountCircleIcon></Tooltip> 
       </Navbar>
     </div>
   )

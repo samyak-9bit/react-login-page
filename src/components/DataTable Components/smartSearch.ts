@@ -1,4 +1,4 @@
-import { Keywords} from "../../types/types";
+import { Keywords, MyObject} from "../../types/types";
 
 
 export const keywords: Keywords[] = [
@@ -36,31 +36,31 @@ export const keywords: Keywords[] = [
 
 
 // Function to get attributes of table data
-export const getAttribute = (item:Object, operand1: keyof Object):any => {
+export const getAttribute = (item:MyObject, operand1: keyof MyObject):any => {
     return item[operand1];
 
 }
 
 
 // Function to filter the array
-export const filterArray = (arr: Object[], operand1: keyof Object, operator: string, operand2: string): Object[] => {
+export const filterArray = (arr: MyObject[], operand1: keyof MyObject, operator: string, operand2: string): MyObject[] => {
     switch (operator) {
         case ">":
-            return arr.filter((item: Object) => {
+            return arr.filter((item: MyObject) => {
                 const value = getAttribute(item, operand1);
                 return typeof value === 'number' && value > Number(operand2);
             });
         case "<":
-            return arr.filter((item: Object) => {
+            return arr.filter((item: MyObject) => {
                 const value = getAttribute(item, operand1);
                 return typeof value === 'number' && value < Number(operand2);
             });
         case "=":
-            return arr.filter((item: Object) => {
+            return arr.filter((item: MyObject) => {
                 const value = getAttribute(item, operand1);
                 if (typeof value === 'number') {
                     return value === Number(operand2);
-                } else return value === operand2;
+                } else return value.toLowerCase() === operand2.toLowerCase();
             });
         default:
             return arr;
@@ -70,7 +70,7 @@ export const filterArray = (arr: Object[], operand1: keyof Object, operator: str
 
 
 // Function to implement the smart Search
-export const searchInStatement = (str: string, arr: Object[], attributes:string[]): Object[] => {
+export const searchInStatement = (str: string, arr: MyObject[], attributes:string[]): MyObject[] => {
 
     const wordsArray = str.toLowerCase().split(/\s+/);
     let previousIndex = -1;
@@ -96,7 +96,7 @@ export const searchInStatement = (str: string, arr: Object[], attributes:string[
                         operand2 = wordsArray[operatorIndex + 1];
                     }
                     console.log(`Operand2 ${operand2}`);
-                    const filteredArray = filterArray(arr, operand1 as keyof Object, match.value, operand2);
+                    const filteredArray = filterArray(arr, operand1 as keyof MyObject, match.value, operand2);
 
                     console.log(`Filtered Array:`);
                     filteredArray.forEach(item => {

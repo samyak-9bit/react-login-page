@@ -7,6 +7,7 @@ import { EnhancedTableToolbarProps } from '../../types/types';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { carUrl, countryUrl } from './uslStrings';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Tooltip } from '@mui/material';
 
 const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const { numSelected } = props;
@@ -56,11 +57,14 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
           />
         </form>
 
+        <span className='ml-3 error-expression'>{props.invalidInputMsg}</span>
+
         {/* Add/Delete button */}
         {numSelected > 0 ? (
+          <Tooltip title="Delete">
           <div className='delete-btn  mr-3 mt-3'>
             <img src="delete.png" alt="filter button" />
-          </div>
+          </div></Tooltip>
         ) : (
           <Button variant="primary mt-3 mr-3" onClick={addCustomer}>
             <span>+</span> Add Customer

@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
-import { TableData } from '../../types/types';
+import { MyObject} from '../../types/types';
 import './Styles.css';
 import { HeadCell, Order, EnhancedTableHeadProps } from '../../types/types';
 
@@ -25,7 +25,7 @@ import { HeadCell, Order, EnhancedTableHeadProps } from '../../types/types';
 const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,dynamicColumns  } = props;
 
-  const createSortHandler = (property: keyof TableData) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof MyObject) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -35,7 +35,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
   return (
     <TableHead className="table-header">
       <TableRow>
-        {/* <TableCell padding="checkbox">
+        <TableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -45,7 +45,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
               'aria-label': 'select all desserts',
             }}
           />
-        </TableCell> */}
+        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -66,7 +66,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              // onClick={createSortHandler(headCell.id)}
+              onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -77,7 +77,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
             </TableSortLabel>
           </TableCell>
         ))}
-        {/* <TableCell
+        <TableCell
           sx={{
             color: 'var(--Gray-700, #464F60)',
             fontFamily: 'Inter',
@@ -91,7 +91,7 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = (props) => {
           align="center"
         >
           Edit
-        </TableCell> */}
+        </TableCell>
       </TableRow>
     </TableHead>
   );
