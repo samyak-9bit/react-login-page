@@ -56,8 +56,8 @@
     width: 19.62294rem;
     height: 2.58194rem;
     border-radius: 12px;
-    background: #EA454C;
-    box-shadow: 0px 4px 10px 0px rgba(233, 68, 75, 0.25);
+    background: rgb(34,84,211);
+    box-shadow: 0px 2px 10px 0px rgb(93, 127, 214);
     border: none;
     color: #FFF;
     text-align: center;
@@ -146,7 +146,7 @@
 }
 
 .signup-link {
-    color: #EA454C;
+    color: rgb(34,84,211);
     font-family: "Poppins";
     font-size: 0.725rem;
     font-style: normal;

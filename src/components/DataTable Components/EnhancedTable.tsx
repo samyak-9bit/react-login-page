@@ -21,6 +21,7 @@ import { HeadCell, Order } from '../../types/types';
 import { carUrl, countryUrl } from './uslStrings';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
+import ImageIcon from '@mui/icons-material/Image';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
@@ -76,7 +77,7 @@ export default function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchInput, setSearchInput] = React.useState<string>("");
-  const [urlString, setUrlString] = React.useState<string>(carUrl);
+  const [urlString, setUrlString] = React.useState<string>(countryUrl);
   const [data, setData] = React.useState<MyObject[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<Error | null>(null);
@@ -256,6 +257,9 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
+  const isImageUrl = (value:string) => {
+      return typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'));
+    };
   return (
     <Box sx={{ width: '100%'}}>
 
@@ -329,7 +333,7 @@ export default function EnhancedTable() {
                             lineHeight: "1.25rem",
 
                           }}>
-                            {typeof value === 'object' ? `${value.rate}, ${value.count}` : value}
+                             {typeof value === 'object' ? `${value.rate}, ${value.count}` : isImageUrl(value) ? <ImageIcon color='action' fontSize='large'/> : value}
                           </TableCell>
                         ))}
 
@@ -409,3 +413,55 @@ export default function EnhancedTable() {
     </Box >
   );
 }
+
+
+
+
+// {data.map((item, index) => {
+//   const isItemSelected = isSelected(item.id);
+//   const labelId = `enhanced-table-checkbox-${item.id}`;
+//   if (item !== null) {
+//     const valuesArray = Object.values(item);
+//     return (
+//       <StyledTableRow
+//         hover
+//         onClick={(event) => handleClick(event, item.id)}
+//         role="checkbox"
+//         aria-checked={isItemSelected}
+//         tabIndex={-1}
+//         key={item.id}
+//         selected={isItemSelected}
+//         sx={{ cursor: 'pointer' }}
+//       >
+//         <TableCell padding="checkbox">
+//           <Checkbox
+//             color="primary"
+//             checked={isItemSelected}
+//             inputProps={{
+//               'aria-labelledby': labelId,
+//             }}
+//           />
+//         </TableCell>
+
+//         {valuesArray.map((value, columnIndex) => (
+//           <TableCell key={columnIndex} align="center" sx={{
+//             color: "var(--Gray-700, #464F60)",
+//             fontFamily: "Inter",
+//             fontSize: "0.875rem",
+//             fontStyle: "normal",
+//             fontWeight: 400,
+//             lineHeight: "1.25rem",
+//           }}>
+//             {typeof value === 'object' ? `${value.rate}, ${value.count}` : isImageUrl(value) ? 'Img' : value}
+//           </TableCell>
+//         ))}
+//       </StyledTableRow>
+//     );
+//   }
+//   return null;
+// });
+
+// // Function to check if a value is an image URL
+// const isImageUrl = (value) => {
+//   return typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'));
+// };

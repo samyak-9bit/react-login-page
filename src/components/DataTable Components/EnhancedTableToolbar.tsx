@@ -1,13 +1,14 @@
 import * as React from 'react';
 import Toolbar from '@mui/material/Toolbar';
-import { Button } from 'react-bootstrap';
+import { Button, NavDropdown, Navbar } from 'react-bootstrap';
 import AddItemModal from './AddItemModal';
 import './Styles.css';
 import { EnhancedTableToolbarProps } from '../../types/types';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { carUrl, countryUrl } from './uslStrings';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
+import { addButton, searchPlaceholder, tableContext } from '../../constants';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   const { numSelected } = props;
@@ -21,11 +22,11 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
     event.preventDefault();
   };
 
-  const setCar=()=>{
+  const setCar = () => {
     props.setUrlString(carUrl);
   }
 
-  const setCountry=()=>{
+  const setCountry = () => {
     props.setUrlString(countryUrl);
   }
 
@@ -49,7 +50,7 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
           <img src="Search.png" alt="search" />
           <input
             type='text'
-            placeholder='Search...'
+            placeholder={searchPlaceholder}
             className='search-input-field'
             value={props.searchInput}
             onChange={props.handleInputChange}
@@ -62,12 +63,12 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
         {/* Add/Delete button */}
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-          <div className='delete-btn  mr-3 mt-3'>
-            <img src="delete.png" alt="filter button" />
-          </div></Tooltip>
+            <div className='delete-btn  mr-3 mt-3'>
+              <img src="delete.png" alt="filter button" />
+            </div></Tooltip>
         ) : (
           <Button variant="primary mt-3 mr-3" onClick={addCustomer}>
-            <span>+</span> Add Customer
+            <span>+</span> {addButton}
           </Button>
         )}
 
@@ -78,16 +79,17 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
           </span>
         )}
 
-    <Dropdown className='switcher mt-3 mr-3'>
-      <Dropdown.Toggle variant="primary" id="dropdown-basic">
-      Table Context
-      </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1" onClick={setCar}>Car</Dropdown.Item>
-        <Dropdown.Item href="#/action-2" onClick={setCountry}>Country</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+        <Dropdown className='switcher mt-3 mr-3'>
+          <Dropdown.Toggle variant="primary" id="dropdown-basic">
+            {tableContext}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1" onClick={setCar}>Car</Dropdown.Item>
+            <Dropdown.Item href="#/action-2" onClick={setCountry}>Country</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
 
         <AddItemModal showModal={showModal} setModal={setShowModal} />
       </div>

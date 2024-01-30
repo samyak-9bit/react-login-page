@@ -1,11 +1,15 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Form from 'react-bootstrap/Form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import {
+  defaultErrorMessage,
   email,
   emailPlaceholder,
+  error401Message,
+  error404Message,
   forgotPasswordLink,
+  loginSuccessMessage,
   password,
   passwordPlaceholder,
   rememberMeCheck,
@@ -33,7 +37,7 @@ padding-left: 2px;
 const LoginForm: React.FC = () => {
   const [fields, setFields] = useState<Fields>({ email: '', password: '' });
   const [message, setMessage]=useState<string>("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,17 +60,17 @@ const handleSignIn = async (e: FormEvent) => {
 
     switch(response.status) {
       case 200:
-        setMessage("SignIn Successful!");
-        // navigate('/table');
+        setMessage(loginSuccessMessage);
+        navigate('/table');
         return;
       case 401:
-        setMessage("Authentication Failed!");
+        setMessage(error401Message);
        return;
       case 404:
-        setMessage("System Error!");
+        setMessage(error404Message);
        return;
       default:
-        setMessage("Something went wrong!");
+        setMessage(defaultErrorMessage);
     }
     
   } catch (error) {

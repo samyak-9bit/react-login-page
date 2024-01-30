@@ -15,7 +15,7 @@ const Login = () => {
         </div>
         {/* Image Section */}
         <div className='col-md-6' style={{height:"100vh"}}>
-          <img src="sideImg.png" alt="img" height="100%" width="100%" />
+          <img src="backgroundImg.png" alt="img" height="100%" width="100%" />
         </div>
       </div>
     </>
