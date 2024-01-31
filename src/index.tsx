@@ -8,9 +8,6 @@ import "@fontsource/poppins";
 import "@fontsource/inter";
 import { BrowserRouter } from 'react-router-dom';
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'

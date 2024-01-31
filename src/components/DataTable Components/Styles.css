@@ -1,6 +1,6 @@
 .table-heading {
-    background: rgba(244, 247, 252, 0.75);
-    backdrop-filter: blur(4px);
+    background: rgba(245, 247, 250, 0.75)!important;
+    backdrop-filter: blur(4px)!important;
     width: 100%;
     height: 4.5rem;
 }
@@ -165,6 +165,6 @@ letter-spacing: 0.0225rem;
     line-height: 1.125rem; /* 150% */
     letter-spacing: 0.0225rem;
     position: relative;
-    top: 20px;
+    top: 5px;
     color: #D12953;
 }

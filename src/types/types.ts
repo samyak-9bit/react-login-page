@@ -73,3 +73,8 @@ export interface MyObject {
   id: number; 
   [key: string]: any; 
 }
+
+export interface FetchedData{
+  attributeTypes:Object,
+  data:Object[],
+}

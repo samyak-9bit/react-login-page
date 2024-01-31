@@ -42,14 +42,15 @@
 }
 
 .form-label {
-    color: #181818;
+    font-family: "Poppins"!important;
+    color: #181818!important;
     text-align: left;
-    font-size: 0.875rem;
+    font-size: 0.875rem!important;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600!important;
     line-height: normal;
-    letter-spacing: 0.02625rem;
-    font-family: "Poppins";
+    letter-spacing: 0.02625rem!important;
+   
 }
 
 .signin-button {
