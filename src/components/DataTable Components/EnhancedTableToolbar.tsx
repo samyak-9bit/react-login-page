@@ -82,10 +82,10 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
         {numSelected > 0 ? (
           <>
           <Tooltip title="Delete">
-            <div className='delete-btn  mr-3 mt-3'>
+            <div className='delete-btn  mr-3 mt-1'>
               <img src="delete.png" alt="filter button" />
             </div></Tooltip>
-             <span className='selected-checks mt-4 mr-3'>
+             <span className='selected-checks mt-1 mr-3'>
              {numSelected} selected
            </span>
            </>

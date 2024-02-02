@@ -22,6 +22,7 @@ import { carUrl, countryUrl } from './uslStrings';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import ImageIcon from '@mui/icons-material/Image';
+import { useQuery } from '@tanstack/react-query';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
@@ -69,6 +70,11 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 
+type GetData={
+  attributeTypes?:Object,
+  data?:MyObject[]
+}
+
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof MyObject>('id');
@@ -82,7 +88,7 @@ export default function EnhancedTable() {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<Error | null>(null);
   const [keysArray, setKeysArray] = React.useState<string[]>([]);
-  const [invalidInputMsg,setInValidInputMsg]=React.useState<string>("");
+  const [invalidInputMsg, setInValidInputMsg] = React.useState<string>("");
 
   //dynamic interface generator
   // const metaData = dummyDynamicData.type;
@@ -117,6 +123,32 @@ export default function EnhancedTable() {
 
   //   fetchData();
   // }, [urlString]);
+
+
+
+  // Query CLient
+  // const retriveData = async () => {
+  //   const retrivedData = await axios.get(urlString);
+  //   return retrivedData;
+
+  // }
+
+  // try {
+  //   const fetchedData = useQuery<GetData>({
+  //     queryKey: [`data-${urlString}`],
+  //     queryFn: retriveData,
+  //     staleTime: 60000,
+  //   })
+  //   console.log("QueryClient Data");
+  //   console.log(fetchedData);
+  //   setData(fetchedData.data?.data);
+  // const newKeysArray = Object.keys(fetchedData.data?.attributeTypes);
+  // setKeysArray(newKeysArray);
+  // } catch (error) {
+  //   console.log(error)
+  // }
+
+  
 
 
   React.useEffect(() => {
@@ -180,7 +212,7 @@ export default function EnhancedTable() {
     if (event.key === 'Enter') {
       if (searchInput.length !== 0) {
         const newRows = searchInStatement(searchInput, data, keysArray);
-        if(newRows.length===0){
+        if (newRows.length === 0) {
           setInValidInputMsg("Cannot find a matching field or statement Invalid!");
         }
         console.log(`NewRows:::::${JSON.stringify(newRows)}`);
@@ -257,73 +289,73 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
-  const isImageUrl = (value:string) => {
-      return typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'));
-    };
+  const isImageUrl = (value: string) => {
+    return typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'));
+  };
   return (
-    <Box sx={{ width: '100%'}}>
+    <Box sx={{ width: '100%' }}>
 
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} setUrlString={setUrlString} invalidInputMsg={invalidInputMsg} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
-        {loading && 
+        {loading &&
           <div className='mt-3 ml-3'>
-            
+
             <Spinner animation="border" role="status">
-            <span className="visually-hidden"></span>
-          </Spinner> <br></br>
+              <span className="visually-hidden"></span>
+            </Spinner> <br></br>
             <h5>Loading...</h5>
-     </div>
-     }
-      {error && <p className='mt-3 ml-3'>Error: {error.message}</p>}
-      {data && (
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={data.length}
-              dynamicColumns={keysArray}
+          </div>
+        }
+        {error && <p className='mt-3 ml-3'>Error: {error.message}</p>}
+        {data && (
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={dense ? 'small' : 'medium'}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={data.length}
+                dynamicColumns={keysArray}
 
-            />
-            <TableBody>
-             {data.map((item,index) => {
-                 const isItemSelected = isSelected(item.id);
-                 const labelId = `enhanced-table-checkbox-${item.id}`;
-                 if (item !== null) {
-                  const valuesArray = Object.values(item);
-                 return (
-                   <StyledTableRow
-                     hover
-                     onClick={(event) => handleClick(event, item.id)}
-                     role="checkbox"
-                     aria-checked={isItemSelected}
-                     tabIndex={-1}
-                     key={item.id}
-                     selected={isItemSelected}
-                     sx={{ cursor: 'pointer' }}
-                   >
-                     <TableCell padding="checkbox">
-                       <Checkbox
-                         color="primary"
-                         checked={isItemSelected}
-                         inputProps={{
-                           'aria-labelledby': labelId,
-                         }}
-                       />
-                     </TableCell>
-                     
-                    
-                     
+              />
+              <TableBody>
+                {data.map((item, index) => {
+                  const isItemSelected = isSelected(item.id);
+                  const labelId = `enhanced-table-checkbox-${item.id}`;
+                  if (item !== null) {
+                    const valuesArray = Object.values(item);
+                    return (
+                      <StyledTableRow
+                        hover
+                        onClick={(event) => handleClick(event, item.id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={item.id}
+                        selected={isItemSelected}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId,
+                            }}
+                          />
+                        </TableCell>
 
 
-                     {valuesArray.map((value, columnIndex) => (
+
+
+
+                        {valuesArray.map((value, columnIndex) => (
                           <TableCell key={columnIndex} align="center" sx={{
                             color: "var(--Gray-700, #464F60)",
                             fontFamily: "Inter",
@@ -333,28 +365,29 @@ export default function EnhancedTable() {
                             lineHeight: "1.25rem",
 
                           }}>
-                             {typeof value === 'object' ? `${value.rate}, ${value.count}` : isImageUrl(value) ? <ImageIcon color='action' fontSize='large'/> : value}
+                            {typeof value === 'object' ? `${value.rate}, ${value.count}` : isImageUrl(value) ? <ImageIcon color='action' fontSize='large' /> : value}
                           </TableCell>
                         ))}
 
-                    
 
-                     <TableCell align="center"><EditIcon color='action' /></TableCell>
 
-                   </StyledTableRow>
-                 );
-}})}
-               {emptyRows > 0 && (
-                 <TableRow
-                   style={{
-                     height: (dense ? 33 : 53) * emptyRows,
-                   }}
-                 >
-                   <TableCell colSpan={6} />
-                 </TableRow>
-               )}
-             </TableBody>
-            {/* <TableBody >
+                        <TableCell align="center"><EditIcon color='action' /></TableCell>
+
+                      </StyledTableRow>
+                    );
+                  }
+                })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              {/* <TableBody >
               {
                 data.map((item, index) => {
                   if (item !== null) {
@@ -390,10 +423,10 @@ export default function EnhancedTable() {
                 })
               }
             </TableBody> */}
-          </Table>
-        </TableContainer>
-      )}
-      <TablePagination
+            </Table>
+          </TableContainer>
+        )}
+        <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={data.length}
@@ -402,10 +435,10 @@ export default function EnhancedTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-    </Paper>
-     
-        
-      
+      </Paper>
+
+
+
       {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
