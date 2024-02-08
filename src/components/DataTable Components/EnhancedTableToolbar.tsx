@@ -6,16 +6,15 @@ import AddItemModal from './AddItemModal';
 import './Styles.css';
 import { EnhancedTableToolbarProps } from '../../types/types';
 import { carUrl, countryUrl } from './uslStrings';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { IconButton, Tooltip } from '@mui/material';
-import { addButton, searchPlaceholder, tableContext } from '../../constants';
+import {searchPlaceholder, tableContext } from '../../constants';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -173,14 +172,14 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
             {/* Add/Delete button */}
             {numSelected > 0 ? (
               <Tooltip title="Delete">
-                <div className='delete-btn  mr-3 mt-3'>
+                <div className='delete-btn  mr-3 mt-2'>
                   <img src="delete.png" alt="filter button" />
                 </div></Tooltip>
             ) : (
               // <Button variant="primary mt-2 mr-3" size="sm" onClick={addCustomer}>
               //  <AddIcon/> {addButton}
               // </Button>
-              <Button variant="contained" className='mt-2 mr-3' size="small" startIcon={<AddIcon/>} onClick={addCustomer}>
+              <Button variant="contained" sx={{height:'38px'}} className='mt-2 mr-3' size="small" startIcon={<AddIcon/>} onClick={addCustomer}>
              ADD
             </Button>
 //               <Button variant="contained">
@@ -190,7 +189,7 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
 
             {/* Show no of checkbox selected */}
             {numSelected > 0 && (
-              <span className='selected-checks mt-4 mr-3'>
+              <span className='selected-checks mt-3 mr-3'>
                 {numSelected} selected
               </span>
             )}
@@ -236,11 +235,3 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
 };
 
 export default EnhancedTableToolbar;
-
-
-
-
-
-
-
-

@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
 import { MyObject} from '../../types/types';
 import './Styles.css';
-import { HeadCell, Order, EnhancedTableHeadProps } from '../../types/types';
+import { EnhancedTableHeadProps } from '../../types/types';
 
 
 // const headCells: readonly { id: keyof TableData; numeric: boolean; disablePadding: boolean; label: string }[] = [

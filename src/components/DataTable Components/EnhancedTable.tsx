@@ -8,21 +8,19 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import Tooltip from '@mui/material/Tooltip';
 import { MyObject } from '../../types/types';
-import { dummyData, dummyDynamicData } from './testData';
 import { styled } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import { searchInStatement } from './smartSearch';
 import './Styles.css';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableToolbar from './EnhancedTableToolbar';
-import { HeadCell, Order } from '../../types/types';
-import { carUrl, countryUrl } from './uslStrings';
+import {  Order } from '../../types/types';
+import { countryUrl } from './uslStrings';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import ImageIcon from '@mui/icons-material/Image';
-import { useQuery } from '@tanstack/react-query';
+
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
