@@ -87,6 +87,7 @@ export default function EnhancedTable() {
   const [error, setError] = React.useState<Error | null>(null);
   const [keysArray, setKeysArray] = React.useState<string[]>([]);
   const [invalidInputMsg, setInValidInputMsg] = React.useState<string>("");
+  const [originalRows,setOriginalRows]=React.useState<MyObject[]>([]);
 
   //dynamic interface generator
   // const metaData = dummyDynamicData.type;
@@ -216,6 +217,7 @@ export default function EnhancedTable() {
         console.log(`NewRows:::::${JSON.stringify(newRows)}`);
         // Use a callback function to update the rows state
         setData((prevRows) => {
+          setOriginalRows(prevRows);
           return newRows.length > 0 ? newRows : prevRows;
         });
         // Use the useEffect hook to log the updated rows state
@@ -226,11 +228,25 @@ export default function EnhancedTable() {
     }
   };
 
+  const changeDataContext = (contextUrl : string)=>{
+    setUrlString(contextUrl);
+    setInValidInputMsg(""); 
+    setSearchInput("");
+  }
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(event.target.value);
+    const inputValue = event.target.value;
+    setSearchInput(inputValue);
+  
+    if (inputValue.trim() === "") {
+      setInValidInputMsg(""); 
+      if(originalRows.length>0){
+        setData(originalRows);
+      }
+    } 
   };
-
+  
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = data.map((n) => n.id);
@@ -294,7 +310,7 @@ export default function EnhancedTable() {
     <Box sx={{ width: '100%' }}>
 
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} setUrlString={setUrlString} invalidInputMsg={invalidInputMsg} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
+        <EnhancedTableToolbar numSelected={selected.length} changeDataContext={changeDataContext} invalidInputMsg={invalidInputMsg} handleInputChange={handleInputChange} searchInput={searchInput} handleEnterKeyPress={handleEnterKeyPress} />
         {loading &&
           <div className='mt-3 ml-3'>
 

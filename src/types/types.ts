@@ -65,8 +65,8 @@ export interface EnhancedTableToolbarProps {
   searchInput: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleEnterKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  setUrlString: SetString;
   invalidInputMsg:string;
+  changeDataContext:(contextUrl:string)=>void;
 }
 
 export interface MyObject {

@@ -31,11 +31,12 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = (props) => {
   };
 
   const setCar = () => {
-    props.setUrlString(carUrl);
+    props.changeDataContext(carUrl);
   }
 
   const setCountry = () => {
-    props.setUrlString(countryUrl);
+    // props.setUrlString(countryUrl);
+    props.changeDataContext(countryUrl);
   }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
