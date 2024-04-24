@@ -49,7 +49,7 @@ const LoginForm: React.FC = () => {
 const handleSignIn = async (e: FormEvent) => {
   e.preventDefault();
   try {
-    const response = await fetch('http://192.168.1.5:9000/authenticate', {
+    const response = await fetch('http://192.168.1.6:9000/authenticate', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
